@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADCIRC.io Plotting Tools</title>
+
+    <!-- jQuery-->
+    <script src="lib/jquery-2.2.4.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.css" />
+    <script src="lib/bootstrap.js"></script>
+
+    <!-- d3.js -->
+    <script src="lib/d3.js"></script>
+
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="index.css" />
+
+</head>
+<body>
+
+    <div class="navbar navbar-default">
+
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand">ADCIRC.io Plotting Tools</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="file-menu">
+
+                <ul class="nav navbar-nav">
+
+                    <!-- File Menu -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">File <span class="caret"></span></a>
+
+                        <ul class="dropdown-menu">
+                            <li><a id="open-fort63" class="menubutton">Open fort.63</a></li>
+                            <li><a id="open-fort64" class="menubutton">Open fort.64</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- File choosers -->
+    <input type="file" id="fort63_picker" style="display: none;">
+    <input type="file" id="fort64_picker" style="display: none;">
+
+    <!-- Javascript -->
+    <script src="adcirc/plotter.js"></script>
+    <script src="adcirc/files/fort63.js"></script>
+    <script src="adcirc/plot.adcirc.js"></script>
+
+</body>
+</html>
