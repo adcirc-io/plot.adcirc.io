@@ -41,4 +41,7 @@ window.onload = function () {
 
     });
 
+    // TEST
+    new WaterLevels( '8454000', 'msl', 'metric', 'gmt', '20160404', '20160405' );
+
 };
