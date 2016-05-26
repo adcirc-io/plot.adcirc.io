@@ -1,13 +1,11 @@
 
-
-
-
 window.onload = function () {
 
     // The plotting tool
     var plotter = new Plotter();
 
     // The UI elements
+    var node_picker = $( '#node-number' );
     var open_fort_63 = $( '#open-fort63' );
     var open_fort_64 = $( '#open-fort64' );
     var fort_63_picker = $( '#fort63_picker' );
@@ -40,5 +38,15 @@ window.onload = function () {
         fort_64_picker[0].value = null;
 
     });
+
+
+    // Node number change events
+    node_picker.change( function () {
+
+        var node_number = node_picker.val();
+
+        plotter.set_node( node_number );
+
+    })
 
 };
