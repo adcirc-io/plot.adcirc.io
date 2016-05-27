@@ -27,7 +27,7 @@ function Plotter () {
         var fort63 = new Fort63( file );
 
         // Create the plot
-        var plot = new AreaPlot( 1200, 300 );
+        var plot = new AreaPlot( 1200, 600 );
 
         // Listen to the dataset for events
         fort63.addEventListener( 'ready', function () {
