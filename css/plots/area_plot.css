@@ -1,6 +1,6 @@
 
 .area {
-    fill: lightsteelblue;
+    fill: steelblue;
 }
 
 .line {
@@ -13,27 +13,4 @@
     fill: white;
     stroke: steelblue;
     stroke-width: 1.5px;
-}
-
-.axis line {
-    shape-rendering: crispEdges;
-    stroke: #000;
-}
-
-.grid line {
-    stroke: #777;
-    stroke-opacity: 0.65;
-}
-
-.grid .minor line {
-    stroke-opacity: 0.35;
-    stroke-dasharray: 2,2;
-}
-
-.grid text {
-    display: none;
-}
-
-.grid path {
-    display: none;
 }
