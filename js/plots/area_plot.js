@@ -1,22 +1,22 @@
-function AreaPlot ( width, height ) {
+function AreaPlot ( container ) {
 
     // Scoping
     var self = this;
+    
+    // Save reference to container
+    this.parent = d3.select( container );
 
-
-    // Plot variables
-    this.margin = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 50
-    };
-
+    // Calculate size and margins
+    var container_width = parseInt( this.parent.style( 'width' ), 10 );
+    var container_height = 400;
+    this.margin = { top: 30, right: 50, bottom: 30, left: 50 };
+    this.width = container_width - this.margin.left - this.margin.right;
+    this.height = container_height - this.margin.top - this.margin.bottom;
+    
+    // Other plotting variables
     this.animation_duration = 250;
-    this.width = width - this.margin.left - this.margin.right;
-    this.height = height - this.margin.top - this.margin.bottom;
-
-
+    
+    
     this.domain_value = function ( data_point, index ) {
 
         return self.axis.x( index + 1 );
@@ -33,6 +33,29 @@ function AreaPlot ( width, height ) {
 
         return self.axis.y( data_point );
 
+    };
+    
+    this.resize = function () {
+        
+        // Update the width
+        var container_width = parseInt( self.parent.style( 'width' ), 10 );
+        var container_height = 400;
+
+        self.width = container_width - self.margin.left - self.margin.right;
+        
+        // Update the axis
+        self.axis.resize( self.width, self.height );
+
+        // Update the plot
+        d3.select( self.svg.node().parentNode )
+          .attr( 'width', container_width )
+          .attr( 'height', container_height );
+
+        self.svg
+            .attr( 'width', self.width )
+            .attr( 'height', self.height );
+        
+        
     };
 
     this.set_data = function ( data ) {
@@ -54,8 +77,7 @@ function AreaPlot ( width, height ) {
 
 
     };
-
-
+    
     this.update_area = function ( data ) {
 
         // Plot data using joins
@@ -75,8 +97,7 @@ function AreaPlot ( width, height ) {
         plot.exit().remove();
 
     };
-
-
+    
     this.update_dots = function ( data ) {
 
         var dots = self.svg.selectAll( '.dot' )
@@ -111,9 +132,8 @@ function AreaPlot ( width, height ) {
         plot.exit().remove();
 
     };
-
-
-
+    
+    
     // Create the plotting functions
     this.line = d3.svg.line()
                   .defined( self.defined )
@@ -127,9 +147,9 @@ function AreaPlot ( width, height ) {
                   .y1( self.range_value );
 
     // Add the plot
-    this.svg = d3.select( '.plotting-area' ).append( 'svg' )
-                 .attr( 'width', width )
-                 .attr( 'height', height )
+    this.svg = this.parent.append( 'svg' )
+                 .attr( 'width', container_width )
+                 .attr( 'height', container_height )
                  .append( 'g' )
                  .attr( 'transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')' );
 

@@ -27,7 +27,7 @@ function Plotter () {
         var fort63 = new Fort63( file );
 
         // Create the plot
-        var plot = new AreaPlot( 1200, 600 );
+        var plot = new AreaPlot( '.plotting-area' );
 
         // Listen to the dataset for events
         fort63.addEventListener( 'ready', function () {
@@ -55,6 +55,16 @@ function Plotter () {
 
         console.log( file );
 
+    };
+    
+    this.on_resize = function ( event ) {
+        
+        for ( var i=0; i<self.plots.length; ++i ) {
+
+            self.plots[i].resize();
+
+        }
+        
     };
     
 }

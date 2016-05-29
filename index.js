@@ -12,6 +12,10 @@ window.onload = function () {
     var fort_64_picker = $( '#fort64_picker' );
     
     
+    // Window resize
+    $( window ).resize( plotter.on_resize );
+    
+    
     // File menu click events
     open_fort_63.click( function () {
         fort_63_picker.click();

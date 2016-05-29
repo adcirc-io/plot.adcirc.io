@@ -64,10 +64,21 @@ function Axis ( svg, width, height ) {
                          .attr( 'class', 'y grid' )
                          .call( self.y_grid );
 
+    self.resize = function ( width, height ) {
+
+        self.x.range( [0, width] );
+        self.y.range( [height, 0] );
+        self.width = width;
+        self.height = height;
+
+        self.update();
+
+    };
+
     self.update = function ( x_domain, y_domain ) {
 
-        self.x.domain( x_domain );
-        self.y.domain( y_domain ).nice();
+        if ( x_domain !== undefined ) self.x.domain( x_domain );
+        if ( y_domain !== undefined ) self.y.domain( y_domain ).nice();
 
         self.x_ticks_g
             .transition()
