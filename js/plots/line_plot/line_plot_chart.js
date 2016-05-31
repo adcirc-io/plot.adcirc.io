@@ -1,9 +1,9 @@
-function AreaPlot ( container ) {
-
+function LinePlotChart ( container ) {
+    
     // Scoping
     var self = this;
     
-    // Save reference to container
+    // Parent
     this.parent = d3.select( container );
 
     // Calculate size and margins
@@ -12,15 +12,15 @@ function AreaPlot ( container ) {
     this.margin = { top: 30, right: 50, bottom: 30, left: 50 };
     this.width = container_width - this.margin.left - this.margin.right;
     this.height = container_height - this.margin.top - this.margin.bottom;
-    
+
     // Other plotting variables
     this.animation_duration = 250;
-    
-    
+
+
     this.domain_value = function ( data_point, index ) {
 
         return self.axis.x( index + 1 );
-        
+
     };
 
     this.defined = function ( data_point ) {
@@ -34,9 +34,9 @@ function AreaPlot ( container ) {
         return self.axis.y( data_point );
 
     };
-    
+
     this.resize = function () {
-        
+
         // Update the width
         var container_width = parseInt( self.parent.style( 'width' ), 10 );
         var container_height = 400;
@@ -61,8 +61,8 @@ function AreaPlot ( container ) {
             .transition()
             .duration( self.animation_duration )
             .attr( 'd', self.line );
-        
-        
+
+
     };
 
     this.set_data = function ( data ) {
@@ -73,52 +73,9 @@ function AreaPlot ( container ) {
             d3.extent( data )
         );
 
-        // Update area
-        // self.update_area( data );
-
         // Update line
         self.update_line( data );
 
-        // Update dots
-        // self.update_dots( data );
-
-
-    };
-    
-    this.update_area = function ( data ) {
-
-        // Plot data using joins
-        var plot = self.svg.selectAll( '.area' )
-                       .data( [ data ] );
-
-        // Add elements when new data is present
-        plot.enter().append( 'path' )
-            .attr( 'class', 'area' );
-
-        // Set the data attribute
-        plot
-            .transition().duration( self.animation_duration )
-            .attr( 'd', self.area );
-
-        // Remove elements when data has been removed
-        plot.exit().remove();
-
-    };
-    
-    this.update_dots = function ( data ) {
-
-        var dots = self.svg.selectAll( '.dot' )
-            .data( data.filter( self.defined ) );
-
-        dots.enter().append( 'circle' )
-            .attr( 'class', 'dot' )
-            .attr( 'r', 2.0 );
-
-        dots.transition().duration( self.animation_duration )
-            .attr( 'cx', self.domain_value )
-            .attr( 'cy', self.range_value );
-
-        dots.exit().remove();
 
     };
 
@@ -139,28 +96,22 @@ function AreaPlot ( container ) {
         plot.exit().remove();
 
     };
-    
-    
+
+
     // Create the plotting functions
     this.line = d3.svg.line()
                   .defined( self.defined )
                   .x( self.domain_value )
                   .y( self.range_value );
 
-    this.area = d3.svg.area()
-                  .defined( self.defined )
-                  .x( self.domain_value )
-                  .y0( self.height )
-                  .y1( self.range_value );
-
     // Add the plot
     this.svg = this.parent.append( 'svg' )
-                 .attr( 'width', container_width )
-                 .attr( 'height', container_height )
-                 .append( 'g' )
-                 .attr( 'transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')' );
+                   .attr( 'width', container_width )
+                   .attr( 'height', container_height )
+                   .append( 'g' )
+                   .attr( 'transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')' );
 
     // Add the axis to the plot
     this.axis = new Axis( self.svg, self.width, self.height );
-
+    
 }

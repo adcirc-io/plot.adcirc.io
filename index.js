@@ -51,6 +51,6 @@ window.onload = function () {
 
         plotter.set_node( node_number );
 
-    })
+    });
 
 };

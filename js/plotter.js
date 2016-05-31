@@ -26,19 +26,13 @@ function Plotter () {
         // Create the dataset
         var fort63 = new Fort63( file );
 
-        // Create the plot
-        var plot = new AreaPlot( '.plotting-area' );
+        // Add a plot row
+        var plot = new LinePlot( '.plotting-area' );
 
         // Listen to the dataset for events
         fort63.addEventListener( 'ready', function () {
 
-            fort63.set_node( 1 );
-
-        });
-
-        fort63.addEventListener( 'timeseries', function () {
-
-            plot.set_data( fort63.timeseries );
+            plot.add_dataset( fort63 );
 
         });
 
@@ -57,7 +51,7 @@ function Plotter () {
 
     };
     
-    this.on_resize = function ( event ) {
+    this.on_resize = function () {
         
         for ( var i=0; i<self.plots.length; ++i ) {
 

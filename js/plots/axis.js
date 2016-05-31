@@ -77,8 +77,20 @@ function Axis ( svg, width, height ) {
 
     self.update = function ( x_domain, y_domain ) {
 
-        if ( x_domain !== undefined ) self.x.domain( x_domain );
-        if ( y_domain !== undefined ) self.y.domain( y_domain ).nice();
+        if ( x_domain !== undefined ) {
+            self.x_domain = x_domain;
+        }
+        if ( y_domain !== undefined ) {
+            self.y_domain = y_domain;
+        }
+
+        self.x.domain( self.x_domain );
+        self.y.domain( self.y_domain ).nice();
+
+        self.x_lines.tickSize( -self.height );
+        self.y_lines.tickSize( -self.width );
+        self.x_grid.tickSize( -self.height );
+        self.y_grid.tickSize( -self.width );
 
         self.x_ticks_g
             .transition()

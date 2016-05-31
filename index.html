@@ -17,8 +17,15 @@
     <!-- Events -->
     <script src="lib/EventDispatcher.js"></script>
 
+    <!-- Handlebars -->
+    <script src="lib/handlebars.runtime-v4.0.5.js"></script>
+
+    <!-- GUID -->
+    <script src="lib/guid.js"></script>
+
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="lib/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="index.css" />
@@ -65,25 +72,7 @@
 
         <div class="row">
 
-            <div id="sidebar" class="col-xs-2 sidebar">
-
-                <div class="form-horizontal">
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Node</label>
-                        <div class="col-sm-10">
-                            <input id="node-number" class="form-control" type="number" min="1" max="1000" value="1">
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div id="plotting-area" class="col-xs-10 plotting-area">
-
-
-            </div>
+            <div id="plotting-area" class="col-md-12 plotting-area"></div>
 
         </div>
 
@@ -94,11 +83,16 @@
     <input type="file" id="fort63_picker" style="display: none;">
     <input type="file" id="fort64_picker" style="display: none;">
 
+    <!-- Templates -->
+    <script src="templates/templates.js"></script>
+
     <!-- Javascript -->
     <script src="js/plotter.js"></script>
     <script src="js/adcirc/files/fort63.js"></script>
     <script src="js/plots/axis.js"></script>
     <script src="js/plots/area_plot.js"></script>
+    <script src="js/plots/line_plot/line_plot.js"></script>
+    <script src="js/plots/line_plot/line_plot_chart.js"></script>
     <script src="index.js"></script>
 
 </body>

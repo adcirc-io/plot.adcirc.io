@@ -1,0 +1,24 @@
+{
+  "name": "plot.adcirc.io",
+  "version": "1.0.0",
+  "description": "Plotting tools for adcirc.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adcirc-io/plot.adcirc.io.git"
+  },
+  "author": "Tristan Dyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adcirc-io/plot.adcirc.io/issues"
+  },
+  "homepage": "https://github.com/adcirc-io/plot.adcirc.io#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
