@@ -54,6 +54,12 @@ function AreaPlot ( container ) {
         self.svg
             .attr( 'width', self.width )
             .attr( 'height', self.height );
+
+        // Update the line
+        self.svg.selectAll( '.line' )
+            .transition()
+            .duration( self.animation_duration )
+            .attr( 'd', self.line );
         
         
     };
