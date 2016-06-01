@@ -9,7 +9,7 @@ function LinePlotChart ( container ) {
     // Calculate size and margins
     var container_width = parseInt( this.parent.style( 'width' ), 10 );
     var container_height = 400;
-    this.margin = { top: 30, right: 50, bottom: 30, left: 50 };
+    this.margin = { top: 31, right: 40, bottom: 30, left: 50 };
     this.width = container_width - this.margin.left - this.margin.right;
     this.height = container_height - this.margin.top - this.margin.bottom;
 

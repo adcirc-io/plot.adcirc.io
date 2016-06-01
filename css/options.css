@@ -1,0 +1,77 @@
+.options {
+
+    padding: 0 5px 0 0;
+    /*padding: 5px 0 0 0;*/
+
+}
+
+.options > .title {
+
+    width: 100%;
+    padding: 0 0 5px 0;
+    border-bottom: 2px solid lightgray;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.options > .title .fa {
+
+    vertical-align: middle;
+    line-height: 1.42857143;
+
+}
+
+.plot-form {
+
+    margin: 5px;
+
+}
+
+.plot-form > .form-title {
+
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 8px;
+
+}
+
+.plot-form > .form-title .fa {
+
+    vertical-align: middle;
+    line-height: inherit;
+    margin-left: 10px;
+
+}
+
+.plot-form > .form-item {
+
+    margin: 5px 5px 0 5px;
+    padding-bottom: 5px;
+
+}
+
+.plot-form > .form-item-last {
+
+    border-bottom: none;
+    margin-bottom: 5px;
+
+}
+
+.plot-form > .form-item > .control-label {
+
+    padding-left: 2px;
+    font-weight: normal;
+    text-align: left;
+    vertical-align: middle;
+
+}
+
+.plot-form > .form-item > .control-content {
+
+    padding-right: 0;
+    text-align: right;
+
+}

@@ -53,4 +53,16 @@ window.onload = function () {
 
     });
 
+
+    //////////////////// TEMPORARILY ADD PERMANENT PLOT
+    // Create defaults for new plot
+    // var defaults = {
+    //     id: self.id,
+    //     node_picker: self.id + 'np'
+    // };
+    //
+    // // Add the line plot template to the container
+    // $( '.plotting-area' ).append( adcirc.templates.line_plot( defaults ) );
+
+
 };
