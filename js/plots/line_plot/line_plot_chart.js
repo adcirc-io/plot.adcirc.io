@@ -2,14 +2,14 @@ function LinePlotChart ( container ) {
     
     // Scoping
     var self = this;
-    
+
     // Parent
-    this.parent = d3.select( container );
+    this.parent = d3.select( '#' + container );
 
     // Calculate size and margins
     var container_width = parseInt( this.parent.style( 'width' ), 10 );
     var container_height = 400;
-    this.margin = { top: 31, right: 40, bottom: 30, left: 50 };
+    this.margin = { top: 32, right: 40, bottom: 30, left: 50 };
     this.width = container_width - this.margin.left - this.margin.right;
     this.height = container_height - this.margin.top - this.margin.bottom;
 
@@ -35,11 +35,11 @@ function LinePlotChart ( container ) {
 
     };
 
-    this.resize = function () {
+    this.resize = function ( target_width, target_height ) {
 
-        // Update the width
-        var container_width = parseInt( self.parent.style( 'width' ), 10 );
-        var container_height = 400;
+        // Update the width ----- THE PLOT SHOULD BE ABLE TO TAKE A PERCENT OR PIXEL WIDTH AND CALCULATE THE NEW WIDTH
+        var container_width = target_width || parseInt( self.parent.style( 'width' ), 10 );
+        var container_height = target_height || 400;
 
         self.width = container_width - self.margin.left - self.margin.right;
         self.height = container_height - self.margin.top - self.margin.bottom;

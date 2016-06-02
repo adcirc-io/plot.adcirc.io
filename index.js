@@ -64,5 +64,7 @@ window.onload = function () {
     // // Add the line plot template to the container
     // $( '.plotting-area' ).append( adcirc.templates.line_plot( defaults ) );
 
+    // new Plot( '.plotting-area' );
+
 
 };

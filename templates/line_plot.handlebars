@@ -1,72 +1,62 @@
-<div id="{{ id }}" class="plot row">
-    <div class="col-sm-4 col-md-3 col-lg-2 options">
+<!-- Line plot options -->
+<div class="plot-form form-horizontal">
 
-        <div class="title">
-            New Plot<i class="fa fa-bars pull-right clickable-icon"></i>
-        </div>
+    <label class="col-sm-12 form-title">
+        Options
+        <i id="{{ icon_collapse }}" class="fa fa-chevron-down pull-right clickable-icon" data-toggle="collapse" data-target="#testcollapse"></i>
+        <i id="{{ icon_more }}" class="fa fa-plus pull-right clickable-icon"></i>
+    </label>
 
-        <!-- Basic plot options -->
+    <div class="collapse.in" id="{{ div_collapse }}">
 
-        <div class="plot-form form-horizontal">
-
-            <label class="col-sm-12 form-title">
-                Options
-                <i class="fa fa-chevron-down pull-right clickable-icon"></i>
-                <i class="fa fa-plus pull-right clickable-icon"></i>
+        <!-- Width -->
+        <div class="form-group form-group-sm form-item">
+            <label class="col-sm-5 control-label">
+                Width:
             </label>
-
-            <!-- Width -->
-            <div class="form-group form-group-sm form-item">
-                <label class="col-sm-5 control-label">
-                    Width:
-                </label>
-                <div class="col-sm-7 control-content">
-                    <div class="input-group">
-                        <input class="form-control" type="number" min="0" max="100" value="100">
-                        <div class="input-group-addon">%</div>
-                    </div>
+            <div class="col-sm-7 control-content">
+                <div class="input-group input-group-sm">
+                    <input id="{{ input_width }}" class="form-control" type="number" min="0" max="100" value="100">
+                    <div class="input-group-addon">%</div>
                 </div>
             </div>
-
-            <!-- Height -->
-            <div class="form-group form-group-sm form-item form-item-last">
-                <label class="col-sm-5 control-label">
-                    Height:
-                </label>
-                <div class="col-sm-7 control-content">
-                    <div class="input-group">
-                        <input class="form-control" type="number" min="0" value="400">
-                        <div class="input-group-addon">px</div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-        <!-- Dataset options -->
-
-        <div class="plot-form form-horizontal">
-
-            <label class="col-sm-12 form-title">
-                Datasets
-                <i class="fa fa-chevron-down pull-right clickable-icon"></i>
-                <i class="fa fa-plus pull-right clickable-icon"></i>
+        <!-- Height -->
+        <div class="form-group form-group-sm form-item form-item-last">
+            <label class="col-sm-5 control-label">
+                Height:
             </label>
-
-            <!-- fort.63 -->
-            <div class="form-group form-group-sm form-item form-item-last">
-                <label class="col-sm-5 control-label">
-                    Node:
-                </label>
-                <div class="col-sm-7 control-content">
-                    <input id="{{node_picker}}" class="form-control" type="number" min="1" max="1000" value="1">
+            <div class="col-sm-7 control-content">
+                <div class="input-group input-group-sm">
+                    <input id="{{ input_height }}" class="form-control" type="number" min="0" value="400">
+                    <div class="input-group-addon">px</div>
                 </div>
             </div>
-
         </div>
-        
-    </div>
-    <div class="col-sm-8 col-md-9 col-lg-10 chart">
 
     </div>
+
+</div>
+
+
+<!-- Dataset options -->
+<div class="plot-form form-horizontal">
+
+    <label class="col-sm-12 form-title">
+        Datasets
+        <i class="fa fa-chevron-down pull-right clickable-icon"></i>
+        <i class="fa fa-plus pull-right clickable-icon"></i>
+    </label>
+
+    <!-- fort.63 -->
+    <div class="form-group form-group-sm form-item form-item-last">
+        <label class="col-sm-5 control-label">
+            Node:
+        </label>
+        <div class="col-sm-7 control-content">
+            <input id="{{ input_node }}" class="form-control" type="number" min="1" max="1000" value="1">
+        </div>
+    </div>
+
 </div>

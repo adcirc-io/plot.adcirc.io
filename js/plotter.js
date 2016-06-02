@@ -27,12 +27,13 @@ function Plotter () {
         var fort63 = new Fort63( file );
 
         // Add a plot row
-        var plot = new LinePlot( '.plotting-area' );
+        var plot = new Plot( '.plotting-area' );
+        var line_plot = new LinePlot( plot );
 
         // Listen to the dataset for events
         fort63.addEventListener( 'ready', function () {
 
-            plot.add_dataset( fort63 );
+            line_plot.add_dataset( fort63 );
 
         });
 
@@ -41,7 +42,7 @@ function Plotter () {
 
         // Store the data and plot
         self.datasets.push( fort63 );
-        self.plots.push( plot );
+        self.plots.push( line_plot );
 
     };
 

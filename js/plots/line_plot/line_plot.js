@@ -1,10 +1,10 @@
-function LinePlot( container ) {
+function LinePlot( parent ) {
 
     // Scoping
     var self = this;
 
-    // Save reference to container
-    this.parent = $( container );
+    // Save reference to parent plot
+    this.parent = parent;
 
     // Variables
     this.id = guid();
@@ -29,9 +29,18 @@ function LinePlot( container ) {
     };
 
     // Event handlers
-    this.on_node_change = function () {
+    this.on_height_change = function ( event ) {
 
-        var node_number = self.node_number_picker.val();
+        var height = event.height;
+        var current_width = self.chart.width + self.chart.margin.left + self.chart.margin.right;
+
+        self.chart.resize( current_width, height );
+
+    };
+
+    this.on_node_change = function ( event ) {
+
+        var node_number = event.node_number;
 
         for ( var i=0; i<self.datasets.length; ++i ) {
 
@@ -41,37 +50,39 @@ function LinePlot( container ) {
 
     };
 
+    this.on_width_change = function ( event ) {
+
+        var percent = event.width / 100.0;
+        var container_width = $( '#' + self.parent.chart_id ).width();
+        var current_height = self.chart.height + self.chart.margin.top + self.chart.margin.bottom;
+
+        self.chart.resize( percent * container_width, current_height );
+
+    };
+
     // Private Functions
     this._initialize = function () {
 
-        // Create defaults for new plot
-        var defaults = {
-            id: self.id,
-            node_picker: self.id + 'np'
-        };
+        // Create the options controller
+        self.options = new LinePlotOptions( self.parent.options_id );
         
-        // Add the line plot template to the container
-        self.parent.append( adcirc.templates.line_plot( defaults ) );
-
-        // Get the options and plot areas
-        self.options_div = $( '#' + defaults.id + ' > .options' )[0];
-        self.chart_div = $( '#' + defaults.id + ' > .chart' )[0];
-
-        // Get the options interface
-        self.node_number_picker = $( '#' + defaults.node_picker );
-        
-        // Create the options and chart objects
-        self.chart = new LinePlotChart( self.chart_div );
+        // Create the chart
+        self.chart = new LinePlotChart( self.parent.chart_id );
 
         // Inherit some functions
         self.set_data = self.chart.set_data;
         self.resize = self.chart.resize;
 
         // Add event listeners
-        self.node_number_picker[0].addEventListener( 'change', self.on_node_change );
+        self.options.addEventListener( 'height', self.on_height_change );
+        self.options.addEventListener( 'node', self.on_node_change );
+        self.options.addEventListener( 'width', self.on_width_change );
 
     };
 
     self._initialize();
 
 }
+
+
+Object.assign( LinePlot.prototype, EventDispatcher.prototype );

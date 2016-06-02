@@ -95,6 +95,7 @@ function Axis ( svg, width, height ) {
         self.x_ticks_g
             .transition()
             .duration( self.animation_duration )
+            .attr( 'transform', 'translate(0,' + self.height + ')' )
             .call( self.x_ticks );
         self.y_ticks_g
             .transition()
@@ -103,6 +104,7 @@ function Axis ( svg, width, height ) {
         self.x_lines_g
             .transition()
             .duration( self.animation_duration )
+            .attr( 'transform', 'translate(0,' + self.height + ')' )
             .call( self.x_lines );
         self.y_lines_g
             .transition()
@@ -111,6 +113,7 @@ function Axis ( svg, width, height ) {
         self.x_grid_g
             .transition()
             .duration( self.animation_duration )
+            .attr( 'transform', 'translate(0,' + self.height + ')' )
             .call( self.x_grid );
         self.y_grid_g
             .transition()
