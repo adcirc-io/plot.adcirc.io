@@ -9,9 +9,6 @@ function Plot( container ) {
     // ID
     this.id = guid();
     
-    // Controllers
-    this.controllers = [];
-    
     // Add the plot to the container
     this.parent.append(
         adcirc.templates.plot(
@@ -20,11 +17,31 @@ function Plot( container ) {
             }
         )
     );
+
+    // Add the line plot
+    this.line_plot = new LinePlotChart( self.id );
     
     this.add_controller = function ( controller ) {
 
-        // Will listen to the controller and recieve plottable datasets
+        // Listen to the controller for plottable data
+        controller.addEventListener( 'timeseries', self.on_timeseries );
         
+    };
+    
+    this.resize = function () {
+        
+        self.line_plot.resize();
+        
+    };
+
+    this.on_timeseries = function ( event ) {
+
+        var id = event.id;
+        var title = event.title;
+        var data = event.data;
+
+        self.line_plot.set_data( id, title, data );
+
     };
     
 }

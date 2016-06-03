@@ -1,0 +1,18 @@
+.node-picker .title {
+
+    text-align: left;
+    font-size: 12px;
+
+}
+
+.node-picker .controller {
+
+    text-align: center;
+
+}
+
+.node-picker .extras {
+
+    text-align: right;
+
+}

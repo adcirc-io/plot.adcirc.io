@@ -28,14 +28,13 @@
     <link href="lib/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
-    <link rel="stylesheet" type="text/css" href="css/node_list.css" />
-    <link rel="stylesheet" type="text/css" href="css/plot.css" />
-    <link rel="stylesheet" type="text/css" href="css/chart.css" />
+    <link rel="stylesheet" type="text/css" href="css/node_picker.css" />
     <link rel="stylesheet" type="text/css" href="css/options.css" />
     <link rel="stylesheet" type="text/css" href="css/plots/axis.css" />
-    <link rel="stylesheet" type="text/css" href="css/plots/area_plot.css" />
+    <link rel="stylesheet" type="text/css" href="css/plots/line_plot.css" />
+    <link rel="stylesheet" type="text/css" href="css/plots/plot.css" />
 
 </head>
 <body>
@@ -48,7 +47,7 @@
         <!-- Sidebar -->
         <!--(bake sidebar.html)-->
 
-        <div id="content">
+        <div id="content-wrapper">
 
             <div class="container-fluid">
 
@@ -61,13 +60,6 @@
         </div>
 
     </div>
-
-    <script>
-        $("#toggle-sidebar").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
 
 
     <!-- File choosers -->
@@ -87,9 +79,7 @@
     <script src="js/plots/axis.js"></script>
     <script src="js/plots/plot.js"></script>
     <script src="js/plots/line_plot/line_plot.js"></script>
-    <script src="js/plots/line_plot/line_plot_chart.js"></script>
-    <script src="js/plots/line_plot/line_plot_options.js"></script>
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
 
 </body>
 </html>

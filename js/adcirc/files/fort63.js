@@ -7,7 +7,8 @@ function Fort63 ( file ) {
 
     // Variables
     this.file = file;
-    this.timeseries = [];
+    this.callbacks = {};
+    this.timeseries = {};
     this.worker = new Worker( 'js/adcirc/files/fort63worker.js' );
 
 
@@ -18,22 +19,35 @@ function Fort63 ( file ) {
 
 
     // Functions
-    this.get_options = function () {
-        
-        if ( !self.options ) {
-            
-            self.options = new Fort63Display( self );
-            
-        }
-        
-        return self.options;
-        
-    };
-    
     this.get_controller = function () {
         
         return new Fort63Controller( self );
         
+    };
+
+    this.get_display = function () {
+
+        return new Fort63Display( self.file.name, self.num_nodes, self.num_timesteps );
+
+    };
+
+    this.get_nodal_timeseries = function ( id, node_number, callback ) {
+
+        var node_number_str = node_number.toString();
+
+        // Check cache for data
+        if ( self.timeseries[ node_number_str ] ) {
+
+            // We've already got the data, so send it to the callback
+            callback( id, node_number, self.timeseries[ node_number_str ] );
+
+        } else {
+
+            // We don't have the data yet, so load it
+            self.load_nodal_timeseries( id, node_number, callback );
+
+        }
+
     };
     
     this.load = function () {
@@ -51,6 +65,41 @@ function Fort63 ( file ) {
         self.worker.postMessage( loadmessage );
 
     };
+
+
+    this.load_nodal_timeseries = function ( id, node_number, callback ) {
+
+        var node_number_str = node_number.toString();
+
+        // Build the load message
+        var loadmessage = {
+            action: 'get_nodal_timeseries',
+            node: node_number_str
+        };
+
+        // Build the callback object
+        var cb = {
+            id: id,
+            node_number: node_number,
+            callback: callback
+        };
+
+        // If there queue for this node exists, we're already loading the data
+        if ( self.callbacks[ node_number_str ] ) {
+
+            self.callbacks[ node_number_str ].push( cb );
+
+        } else {
+
+            self.callbacks[ node_number_str ] = [];
+            self.callbacks[ node_number_str ].push( cb );
+
+            // Start loading the data
+            self.worker.postMessage( loadmessage );
+
+        }
+
+    };
     
     
     this.on_data_ready = function ( num_nodes, num_timesteps ) {
@@ -60,6 +109,29 @@ function Fort63 ( file ) {
 
         self.dispatchEvent( ready_event );
         
+    };
+
+
+    this.on_nodal_timeseries = function ( node, data_buffer ) {
+
+        // Cache the data
+        self.timeseries[ node ] = new Float32Array( data_buffer );
+
+        // Check for callbacks waiting for this node
+        if ( self.callbacks[ node ] ) {
+
+            for ( var i=0; i<self.callbacks[ node ].length; ++i ) {
+
+                // Get the callback object
+                var cb = self.callbacks[ node ][ i ];
+
+                // Call the callback
+                cb.callback( cb.id, cb.node_number, self.timeseries[ node ] );
+
+            }
+
+        }
+
     };
 
 
@@ -92,6 +164,11 @@ function Fort63 ( file ) {
             case 'timeseries':
 
                 self.on_timeseries( message.timeseries );
+                break;
+
+            case 'nodal_timeseries':
+
+                self.on_nodal_timeseries( message.node, message.timeseries );
                 break;
 
             

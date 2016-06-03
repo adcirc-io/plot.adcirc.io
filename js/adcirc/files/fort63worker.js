@@ -14,9 +14,9 @@ self.addEventListener( 'message', function ( message ) {
             load_file( message.data.file );
             break;
         
-        case 'get_timeseries':
+        case 'get_nodal_timeseries':
             
-            get_timeseries( message.data.node );
+            get_nodal_timeseries( message.data.node );
             break;
 
     }
@@ -24,14 +24,14 @@ self.addEventListener( 'message', function ( message ) {
 });
 
 
-function get_timeseries ( node ) {
+function get_nodal_timeseries ( node ) {
 
     var data = nodal_timeseries[ node ];
 
     if ( data ) {
 
         var timeseries = new Float32Array( data );
-        post_timeseries( timeseries );
+        post_nodal_timeseries( node, timeseries );
 
     } else {
 
@@ -109,10 +109,11 @@ function post_data_ready( num_nodes, num_timesteps ) {
 }
 
 
-function post_timeseries( timeseries ) {
+function post_nodal_timeseries( node, timeseries ) {
 
     var data = {
-        type: 'timeseries',
+        type: 'nodal_timeseries',
+        node: node,
         timeseries: timeseries.buffer
     };
 

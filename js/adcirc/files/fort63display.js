@@ -14,7 +14,7 @@ function Fort63Display ( file_name, num_nodes, num_timesteps ) {
     this.id_add_min_max = guid();
     
     // Generate HTML
-    this.html = adcirc.templates.fort63options(
+    this.html = adcirc.templates.fort63display(
         {
             file_name: file_name,
             id: self.id,
@@ -66,8 +66,24 @@ function Fort63Display ( file_name, num_nodes, num_timesteps ) {
 
         // Add node picker
         self.data_list.append( node_picker );
+        
+        // Listen for events
+        $( '#' + id )[0].addEventListener( 'change', self.on_change_node );
 
+        // Tell the controller that a node has been added
         self.dispatchEvent( { type: 'add_node', id: id, node: 1 } );
+
+    };
+
+    this.on_change_node = function ( event ) {
+
+        event.preventDefault();
+
+        // Get the node picker id and new node number
+        var id = event.target.id;
+        var node_number = parseInt( event.target.value );
+
+        self.dispatchEvent( { type: 'change_node', id: id, node: node_number } );
 
     }
     

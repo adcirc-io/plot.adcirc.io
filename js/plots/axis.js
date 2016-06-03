@@ -84,8 +84,12 @@ function Axis ( svg, width, height ) {
             self.y_domain = y_domain;
         }
 
-        self.x.domain( self.x_domain );
-        self.y.domain( self.y_domain ).nice();
+        if ( self.x_domain ) {
+            self.x.domain( self.x_domain );
+        }
+        if ( self.y_domain ) {
+            self.y.domain( self.y_domain ).nice();
+        }
 
         self.x_lines.tickSize( -self.height );
         self.y_lines.tickSize( -self.width );
