@@ -13,8 +13,9 @@ window.onload = function () {
     var fort_63_picker = $( '#fort63_picker' );
     
     
-    // Window resize
+    // Window resize events
     $( window ).resize( plotter.on_resize );
+    page_wrapper.bind( 'oTransitionEnd transitionend webkitTransitionEnd', plotter.on_resize );
     
     
     // File menu click events
