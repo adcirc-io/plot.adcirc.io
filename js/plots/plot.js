@@ -6,20 +6,27 @@ function Plot( container ) {
     // Parent container
     this.parent = $( container );
     
-    // IDs
+    // ID
     this.id = guid();
-    this.options_id = guid();
-    this.chart_id = guid();
+    
+    // Controllers
+    this.controllers = [];
     
     // Add the plot to the container
     this.parent.append(
         adcirc.templates.plot(
             {
-                id: self.id,
-                options_id: self.options_id,
-                chart_id: self.chart_id
+                id: self.id
             }
         )
     );
     
+    this.add_controller = function ( controller ) {
+
+        // Will listen to the controller and recieve plottable datasets
+        
+    };
+    
 }
+
+Object.assign( Plot.prototype, EventDispatcher.prototype );

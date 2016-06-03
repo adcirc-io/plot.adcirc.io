@@ -1,0 +1,166 @@
+#page-wrapper {
+
+    padding-left: 0;
+    -webkit-transition: all 0.35s ease;
+       -moz-transition: all 0.35s ease;
+         -o-transition: all 0.35s ease;
+            transition: all 0.35s ease;
+
+}
+
+#page-wrapper.toggled {
+
+    padding-left: 350px;
+
+}
+
+#sidebar-wrapper {
+
+    position: fixed;
+    left: 350px;
+    width: 0;
+    height: 100%;
+    margin-left: -350px;
+    overflow-y: auto;
+
+    border-right: 1px solid #dddddd;
+
+    -webkit-transition: all 0.35s ease;
+       -moz-transition: all 0.35s ease;
+         -o-transition: all 0.35s ease;
+            transition: all 0.35s ease;
+
+}
+
+#page-wrapper.toggled #sidebar-wrapper {
+
+    width: 350px;
+}
+
+#content {
+
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+
+}
+
+#page-wrapper.toggled #content {
+
+    position: absolute;
+    margin-right: -350px;
+
+}
+
+.sidebar {
+
+    position: absolute;
+    top: 0;
+    width: 350px;
+    padding: 5px 5px 0 5px;
+
+}
+
+.sidebar a {
+
+    cursor: pointer;
+
+}
+
+.sidebar > .title {
+
+    width: 100%;
+    padding: 5px 5px 7px 5px;
+    border-bottom: 2px solid lightgray;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.sidebar > .title .fa {
+
+    vertical-align: middle;
+    line-height: 1.5;
+
+}
+
+.sidebar-section {
+
+    width: 100%;
+    margin-top: 5px;
+
+}
+
+.sidebar-section > .title {
+
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 5px;
+
+}
+
+.sidebar-section > .title .fa {
+
+    vertical-align: middle;
+    line-height: 1.5;
+
+}
+
+.sidebar-section .placeholder {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.sidebar-group {
+
+    width: 100%;
+    margin-top: 5px;
+
+}
+
+.sidebar-group > .title {
+
+    margin: 5px 5px 5px 5px;
+    padding: 0 5px 0 5px;
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+.sidebar-group > .title .fa {
+
+    vertical-align: middle;
+    line-height: 1.5;
+
+}
+
+.sidebar-group > .title > .subtitle {
+
+    float: right;
+    padding-right: 10px;
+    font-size: x-small;
+    text-align: center;
+    line-height: 1.9;
+    color: #aaaaaa;
+
+}
+
+.sidebar-group .filler {
+
+    padding: 15px 0;
+    color: #aaaaaa;
+
+}
+
+.sidebar-group .footer {
+
+    padding: 5px 0 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

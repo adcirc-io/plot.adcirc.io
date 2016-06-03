@@ -1,13 +1,34 @@
+<!-- Dataset options -->
+<div class="plot-form form-horizontal">
+
+    <label class="col-sm-12 form-title">
+        Datasets
+        <i class="fa fa-chevron-down pull-right clickable-icon"></i>
+        <i class="fa fa-list pull-right clickable-icon"></i>
+    </label>
+
+    <!-- fort.63 -->
+    <div class="form-group form-group-sm form-item form-item-last">
+        <label class="col-sm-5 control-label">
+            Node:
+        </label>
+        <div class="col-sm-7 control-content">
+            <input id="{{ input_node }}" class="form-control" type="number" min="1" max="1000" value="1">
+        </div>
+    </div>
+
+</div>
+
 <!-- Line plot options -->
 <div class="plot-form form-horizontal">
 
     <label class="col-sm-12 form-title">
         Options
-        <i id="{{ icon_collapse }}" class="fa fa-chevron-down pull-right clickable-icon" data-toggle="collapse" data-target="#testcollapse"></i>
-        <i id="{{ icon_more }}" class="fa fa-plus pull-right clickable-icon"></i>
+        <i id="{{ icon_collapse }}" class="fa fa-chevron-down pull-right clickable-icon rotate" data-toggle="collapse" data-target="#testcollapse"></i>
+        <i id="{{ icon_more }}" class="fa fa-list pull-right clickable-icon"></i>
     </label>
 
-    <div class="collapse.in" id="{{ div_collapse }}">
+    <div class="collapse in" id="{{ div_collapse }}">
 
         <!-- Width -->
         <div class="form-group form-group-sm form-item">
@@ -35,28 +56,6 @@
             </div>
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- Dataset options -->
-<div class="plot-form form-horizontal">
-
-    <label class="col-sm-12 form-title">
-        Datasets
-        <i class="fa fa-chevron-down pull-right clickable-icon"></i>
-        <i class="fa fa-plus pull-right clickable-icon"></i>
-    </label>
-
-    <!-- fort.63 -->
-    <div class="form-group form-group-sm form-item form-item-last">
-        <label class="col-sm-5 control-label">
-            Node:
-        </label>
-        <div class="col-sm-7 control-content">
-            <input id="{{ input_node }}" class="form-control" type="number" min="1" max="1000" value="1">
-        </div>
     </div>
 
 </div>

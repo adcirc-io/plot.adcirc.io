@@ -44,6 +44,9 @@ function LinePlotOptions( container ) {
         // Collapse (or expand) the line plot options
         self.div_collapse.collapse( 'toggle' );
 
+        // Rotate the icon
+        self.icon_collapse.toggleClass( 'down' );
+
     };
 
     this.on_input_height = function () {

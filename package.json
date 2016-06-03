@@ -18,6 +18,7 @@
   "homepage": "https://github.com/adcirc-io/plot.adcirc.io#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
+    "grunt-bake": "^1.7.2",
     "grunt-contrib-handlebars": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0"
   }

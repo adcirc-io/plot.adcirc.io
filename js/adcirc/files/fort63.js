@@ -18,6 +18,24 @@ function Fort63 ( file ) {
 
 
     // Functions
+    this.get_options = function () {
+        
+        if ( !self.options ) {
+            
+            self.options = new Fort63Display( self );
+            
+        }
+        
+        return self.options;
+        
+    };
+    
+    this.get_controller = function () {
+        
+        return new Fort63Controller( self );
+        
+    };
+    
     this.load = function () {
 
         // Start listening to the worker before we tell it to load anything

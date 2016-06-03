@@ -20,24 +20,46 @@ module.exports = function ( grunt ) {
 
                 files: {
 
-                    'templates/templates.js': [ 'templates/*.handlebars' ]
+                    'templates/templates.js': [ 'templates/**/*.handlebars' ]
 
                 }
 
             }
 
         },
+        
+        bake: {
+            
+            index: {
+
+                files: {
+
+                    "index.html": "html/index.html"
+
+                }
+
+            }
+            
+        },
 
         watch: {
 
-            files: [ 'templates/*.handlebars' ],
-            tasks: [ 'handlebars' ]
+            templates: {
+                files: [ 'templates/**/*.handlebars' ],
+                tasks: [ 'handlebars' ]
+            },
+
+            html: {
+                files: [ 'html/**/*.html' ],
+                tasks: [ 'bake' ]
+            }
 
         }
 
     });
 
     grunt.loadNpmTasks( 'grunt-contrib-handlebars' );
+    grunt.loadNpmTasks( 'grunt-bake' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
 };

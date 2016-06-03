@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADCIRC.io Plotting Tools</title>
+
+    <!-- jQuery-->
+    <script src="lib/jquery-2.2.4.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.css" />
+    <script src="lib/bootstrap.js"></script>
+
+    <!-- d3.js -->
+    <script src="lib/d3.js"></script>
+
+    <!-- Events -->
+    <script src="lib/EventDispatcher.js"></script>
+
+    <!-- Handlebars -->
+    <script src="lib/handlebars.runtime-v4.0.5.js"></script>
+
+    <!-- GUID -->
+    <script src="lib/guid.js"></script>
+
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+    <link href="lib/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="css/node_list.css" />
+    <link rel="stylesheet" type="text/css" href="css/plot.css" />
+    <link rel="stylesheet" type="text/css" href="css/chart.css" />
+    <link rel="stylesheet" type="text/css" href="css/options.css" />
+    <link rel="stylesheet" type="text/css" href="css/plots/axis.css" />
+    <link rel="stylesheet" type="text/css" href="css/plots/area_plot.css" />
+
+</head>
+<body>
+
+    <!-- Top navigation -->
+    <!--(bake navbar.html)-->
+
+    <div id="page-wrapper" class="toggled">
+
+        <!-- Sidebar -->
+        <!--(bake sidebar.html)-->
+
+        <div id="content">
+
+            <div class="container-fluid">
+
+                <div id="plotting-area" class="row plotting-area">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        $("#toggle-sidebar").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+
+    <!-- File choosers -->
+    <input type="file" id="fort63_picker" style="display: none;">
+    <input type="file" id="fort64_picker" style="display: none;">
+
+    <!-- Templates -->
+    <script src="templates/templates.js"></script>
+
+    <!-- Javascript -->
+    <script src="js/data_manager.js"></script>
+    <script src="js/plotter.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/adcirc/files/fort63.js"></script>
+    <script src="js/adcirc/files/fort63controller.js"></script>
+    <script src="js/adcirc/files/fort63display.js"></script>
+    <script src="js/plots/axis.js"></script>
+    <script src="js/plots/plot.js"></script>
+    <script src="js/plots/line_plot/line_plot.js"></script>
+    <script src="js/plots/line_plot/line_plot_chart.js"></script>
+    <script src="js/plots/line_plot/line_plot_options.js"></script>
+    <script src="index.js"></script>
+
+</body>
+</html>

@@ -18,11 +18,24 @@ html, body {
     padding: 5px 5px 0 5px;
 }
 
-.clickable-icon {
+.clickable {
     cursor: pointer;
-    color: #337ab7;
 }
 
-.clickable-icon:hover {
-    color: #23527c;
+.clickable-primary {
+    color: steelblue;
+    opacity: 0.8;
+}
+
+.clickable-primary:hover {
+    opacity: 1.0;
+}
+
+.clickable-secondary {
+    color: darkgray;
+    opacity: 0.8;
+}
+
+.clickable-secondary:hover {
+    opacity: 1.0;
 }
