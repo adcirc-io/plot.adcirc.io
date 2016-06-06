@@ -34,6 +34,12 @@ function LinePlotChart ( container ) {
         return self.axis.y( data_point );
 
     };
+    
+    this.remove = function ( id ) {
+        
+        d3.selectAll( '#d' + id ).remove();
+        
+    };
 
     this.resize = function () {
 

@@ -20,6 +20,7 @@ function Fort63Controller ( fort63 ) {
         // Start listening for events from the display
         self.display.addEventListener( 'add_node', self.on_add_node );
         self.display.addEventListener( 'change_node', self.on_change_node );
+        self.display.addEventListener( 'remove_node', self.on_remove_node );
 
     };
 
@@ -67,6 +68,18 @@ function Fort63Controller ( fort63 ) {
 
         });
         
+    };
+
+    self.on_remove_node = function ( event ) {
+
+        // Tell the plot to remove the node
+        self.dispatchEvent({
+
+            type: 'remove',
+            id: event.id
+
+        });
+
     }
     
 }

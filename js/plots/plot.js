@@ -24,6 +24,7 @@ function Plot( container ) {
     this.add_controller = function ( controller ) {
 
         // Listen to the controller for plottable data
+        controller.addEventListener( 'remove', self.on_remove );
         controller.addEventListener( 'timeseries', self.on_timeseries );
         
     };
@@ -32,6 +33,13 @@ function Plot( container ) {
         
         self.line_plot.resize();
         
+    };
+
+    this.on_remove = function ( event ) {
+
+        var id = event.id;
+        self.line_plot.remove( id );
+
     };
 
     this.on_timeseries = function ( event ) {
