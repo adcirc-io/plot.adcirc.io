@@ -15,6 +15,7 @@ function LinePlotChart ( container ) {
 
     // Other plotting variables
     this.animation_duration = 250;
+    this.bounds = [];
 
 
     this.domain_value = function ( data_point, index ) {
@@ -36,8 +37,27 @@ function LinePlotChart ( container ) {
     };
     
     this.remove = function ( id ) {
-        
+
+        // Remove the line from the chart
         d3.selectAll( '#d' + id ).remove();
+
+        // Remove the data bounds from our list of bounds
+        for ( var i=0; i<self.bounds.length; ++i ) {
+
+            if ( self.bounds[ i ].id === id ) {
+
+                self.bounds.splice( i, 1 );
+                break;
+
+            }
+
+        }
+
+        // Update the axes
+        self.update_bounds();
+
+        // Update all lines
+        self.svg.selectAll( '.line' ).transition().duration( self.animation_duration ).attr( 'd', self.line );
         
     };
 
@@ -73,7 +93,7 @@ function LinePlotChart ( container ) {
     this.set_data = function ( id, title, data ) {
 
         // Update the plot bounds
-        self.update_bounds( data );
+        self.update_bounds( id, data );
 
         // Perform join on plot ID, add it if it doesn't exist
         self.svg.selectAll( '#d' + id ).data( [data] )
@@ -87,25 +107,54 @@ function LinePlotChart ( container ) {
 
     };
 
-    this.update_bounds = function ( data ) {
+    this.update_bounds = function ( id, data ) {
 
-        var xmax = data.length;
-        var ymin = d3.min( data );
-        var ymax = d3.max( data );
+        if ( id && data ) {
 
-        if ( !self.x_bounds ) {
-            self.x_bounds = [ 0, data.length ];
-        } else {
-            self.x_bounds = [ 0, d3.max( [xmax, self.x_bounds[1]] ) ];
+            // Get the min/max ranges
+            var xmax = data.length;
+            var ymin = d3.min( data );
+            var ymax = d3.max( data );
+
+            // Update the range values if we've got them, add them if we don't
+            var found = false;
+            for ( var i = 0; i < self.bounds.length; ++i ) {
+                if ( self.bounds[ i ].id === id ) {
+                    self.bounds[ i ].xmin = 0;
+                    self.bounds[ i ].xmax = xmax;
+                    self.bounds[ i ].ymin = ymin;
+                    self.bounds[ i ].ymax = ymax;
+                    found = true;
+                    break;
+                }
+            }
+
+            if ( !found ) {
+
+                self.bounds.push({
+                    id: id,
+                    xmin: 0,
+                    xmax: xmax,
+                    ymin: ymin,
+                    ymax: ymax
+                });
+
+            }
+
         }
 
-        if ( !self.y_bounds ) {
-            self.y_bounds = d3.extent( data );
-        } else {
-            self.y_bounds = [ d3.min( [ymin, self.y_bounds[0]] ), d3.max( [ymax, self.y_bounds[1]] ) ];
-        }
+        var xbounds = [
+            d3.min( self.bounds.map( function ( b ) { return b.xmin; } ) ),
+            d3.max( self.bounds.map( function ( b ) { return b.xmax; } ) )
+        ];
 
-        self.axis.update( self.x_bounds, self.y_bounds );
+        var ybounds = [
+            d3.min( self.bounds.map( function ( b ) { return b.ymin; } ) ),
+            d3.max( self.bounds.map( function ( b ) { return b.ymax; } ) )
+        ];
+
+        self.axis.update( xbounds, ybounds );
+
 
     };
 

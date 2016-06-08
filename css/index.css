@@ -22,6 +22,17 @@ html, body {
     cursor: pointer;
 }
 
+.clickable-group {
+    cursor: pointer
+}
+
+.clickable-group:hover .clickable-primary,
+.clickable-group .clickable-secondary {
+
+    opacity: 1.0;
+
+}
+
 .clickable-primary {
     color: steelblue;
     opacity: 0.8;
