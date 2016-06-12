@@ -14,13 +14,8 @@ function DataManager () {
         // Create the dataset
         var fort63 = new Fort63( file );
 
-        // Listen to the dataset for events
-        fort63.addEventListener( 'ready', function () {
-
-            // Cache the dataset
-            self._add_dataset( fort63 );
-
-        });
+        // Cache the dataset
+        self._add_dataset( fort63 );
 
         // Start loading
         fort63.load();

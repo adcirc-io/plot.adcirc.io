@@ -15,12 +15,17 @@ function Fort63Controller ( fort63 ) {
         container.append( self.display.html );
 
         // Notify the display that the HTML is now on the page
-        self.display.initialize();
+        self.display.initialize( self.data.status, self.data.num_nodes, self.data.num_timesteps );
 
         // Start listening for events from the display
         self.display.addEventListener( 'add_node', self.on_add_node );
         self.display.addEventListener( 'change_node', self.on_change_node );
         self.display.addEventListener( 'remove_node', self.on_remove_node );
+        
+        // Start listening for events from the data
+        self.data.addEventListener( 'header', self.on_data_header );
+        self.data.addEventListener( 'progress', self.on_data_progress );
+        self.data.addEventListener( 'ready', self.on_data_ready );
 
     };
 
@@ -69,8 +74,27 @@ function Fort63Controller ( fort63 ) {
         });
         
     };
+    
+    this.on_data_header = function ( event ) {
+        
+        self.display.set_num_nodes( event.num_nodes );
+        self.display.set_num_timesteps( event.num_timesteps );
+        
+    };
 
-    self.on_remove_node = function ( event ) {
+    this.on_data_progress = function ( event ) {
+
+        self.display.set_progress( event.progress );
+
+    };
+    
+    this.on_data_ready = function ( event ) {
+        
+        self.display.set_view_data();
+        
+    };
+
+    this.on_remove_node = function ( event ) {
 
         // Tell the plot to remove the node
         self.dispatchEvent({

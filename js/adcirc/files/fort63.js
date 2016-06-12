@@ -8,14 +8,20 @@ function Fort63 ( file ) {
     // Variables
     this.file = file;
     this.callbacks = {};
+    this.info = '';
+    this.num_nodes = 0;
+    this.num_timesteps = 0;
+    this.status = 'loading';
     this.timeseries = {};
     this.worker = new Worker( 'js/adcirc/files/fort63worker.js' );
 
 
     // Events
     var error_event = { type: 'error' };
+    var header_event = { type: 'header' };
+    var progress_event = { type: 'progress' };
+    var progress_unknown_event = { type: 'progress_unknown' };
     var ready_event = { type: 'ready' };
-    var timeseries_event = { type: 'timeseries' };
 
 
     // Functions
@@ -25,11 +31,13 @@ function Fort63 ( file ) {
         
     };
 
+
     this.get_display = function () {
 
-        return new Fort63Display( self.file.name, self.num_nodes, self.num_timesteps );
+        return new Fort63Display( self.file.name );
 
     };
+
 
     this.get_nodal_timeseries = function ( id, node_number, callback ) {
 
@@ -49,7 +57,8 @@ function Fort63 ( file ) {
         }
 
     };
-    
+
+
     this.load = function () {
 
         // Start listening to the worker before we tell it to load anything
@@ -62,6 +71,7 @@ function Fort63 ( file ) {
         };
 
         // Send the message
+        self.status = 'loading';
         self.worker.postMessage( loadmessage );
 
     };
@@ -102,12 +112,25 @@ function Fort63 ( file ) {
     };
     
     
-    this.on_data_ready = function ( num_nodes, num_timesteps ) {
+    this.on_data_ready = function () {
+
+        self.status = 'ready';
+        self.dispatchEvent( ready_event );
         
+    };
+
+
+    this.on_header = function ( info, num_nodes, num_timesteps ) {
+
+        self.info = info;
         self.num_nodes = num_nodes;
         self.num_timesteps = num_timesteps;
 
-        self.dispatchEvent( ready_event );
+        header_event.info = info;
+        header_event.num_nodes = num_nodes;
+        header_event.num_timesteps = num_timesteps;
+
+        self.dispatchEvent( header_event );
         
     };
 
@@ -135,10 +158,10 @@ function Fort63 ( file ) {
     };
 
 
-    this.on_timeseries = function ( data_buffer ) {
+    this.on_progress = function ( progress ) {
 
-        self.timeseries = new Float32Array( data_buffer );
-        self.dispatchEvent( timeseries_event );
+        progress_event.progress = progress;
+        self.dispatchEvent( progress_event );
 
     };
 
@@ -151,19 +174,20 @@ function Fort63 ( file ) {
         // Check the message type
         switch ( message.type ) {
 
+            case 'data_ready':
+
+                self.on_data_ready();
+                break;
+
             case 'error':
+
                 console.log( 'ERROR: ' + message.message );
                 self.dispatchEvent( error_event );
                 break;
 
-            case 'data_ready':
-                
-                self.on_data_ready( message.num_nodes, message.num_timesteps );
-                break;
+            case 'header':
 
-            case 'timeseries':
-
-                self.on_timeseries( message.timeseries );
+                self.on_header( message.info, message.num_nodes, message.num_timesteps );
                 break;
 
             case 'nodal_timeseries':
@@ -171,22 +195,16 @@ function Fort63 ( file ) {
                 self.on_nodal_timeseries( message.node, message.timeseries );
                 break;
 
+            case 'progress':
+
+                self.on_progress( message.progress );
+                break;
+
             
         }
         
     };
 
-
-    this.set_node = function ( node ) {
-
-        var loadmessage = {
-            action: 'get_timeseries',
-            node: node.toString()
-        };
-
-        self.worker.postMessage( loadmessage );
-
-    };
 
 }
 

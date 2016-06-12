@@ -10,12 +10,12 @@ this["adcirc"]["templates"]["fort63display"] = Handlebars.template({"compiler":[
     + alias4(((helper = (helper = helpers.id_title || (depth0 != null ? depth0.id_title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_title","hash":{},"data":data}) : helper)))
     + "\">\n            "
     + alias4(((helper = (helper = helpers.file_name || (depth0 != null ? depth0.file_name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"file_name","hash":{},"data":data}) : helper)))
-    + "\n        </label>\n        <i class=\"fa fa-angle-down pull-right clickable clickable-secondary\"></i>\n        <div class=\"subtitle\">\n            Nodes: "
-    + alias4(((helper = (helper = helpers.num_nodes || (depth0 != null ? depth0.num_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"num_nodes","hash":{},"data":data}) : helper)))
-    + " Timesteps: "
-    + alias4(((helper = (helper = helpers.num_timesteps || (depth0 != null ? depth0.num_timesteps : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"num_timesteps","hash":{},"data":data}) : helper)))
-    + "\n        </div>\n    </div>\n\n    <div id=\""
-    + alias4(((helper = (helper = helpers.id_content_wrapper || (depth0 != null ? depth0.id_content_wrapper : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_content_wrapper","hash":{},"data":data}) : helper)))
+    + "\n        </label>\n        <i class=\"fa fa-angle-down pull-right clickable clickable-secondary\"></i>\n        <div class=\"subtitle\">\n            Nodes: <span id=\""
+    + alias4(((helper = (helper = helpers.id_num_nodes || (depth0 != null ? depth0.id_num_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_num_nodes","hash":{},"data":data}) : helper)))
+    + "\">0</span> Timesteps: <span id=\""
+    + alias4(((helper = (helper = helpers.id_num_timesteps || (depth0 != null ? depth0.id_num_timesteps : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_num_timesteps","hash":{},"data":data}) : helper)))
+    + "\">0</span>\n        </div>\n    </div>\n\n    <div id=\""
+    + alias4(((helper = (helper = helpers.id_view_data || (depth0 != null ? depth0.id_view_data : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_view_data","hash":{},"data":data}) : helper)))
     + "\" class=\"content\">\n\n        <!-- Plotted data -->\n        <div id=\""
     + alias4(((helper = (helper = helpers.id_data_list || (depth0 != null ? depth0.id_data_list : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_data_list","hash":{},"data":data}) : helper)))
     + "\">\n\n            <div id=\""
@@ -26,7 +26,11 @@ this["adcirc"]["templates"]["fort63display"] = Handlebars.template({"compiler":[
     + alias4(((helper = (helper = helpers.id_add_nodes || (depth0 != null ? depth0.id_add_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_add_nodes","hash":{},"data":data}) : helper)))
     + "\" type=\"button\" class=\"btn btn-default\">Nodes</button>\n\n                <div class=\"btn-group btn-group-sm\" role=\"group\">\n                    <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">\n                        Other\n                        <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu\">\n                        <li><a id=\""
     + alias4(((helper = (helper = helpers.id_add_min_max || (depth0 != null ? depth0.id_add_min_max : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_add_min_max","hash":{},"data":data}) : helper)))
-    + "\">Min/Max Elevation</a></li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n\n    </div>\n\n</div>";
+    + "\">Min/Max Elevation</a></li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n\n    </div>\n\n    <div id=\""
+    + alias4(((helper = (helper = helpers.id_view_loading || (depth0 != null ? depth0.id_view_loading : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_view_loading","hash":{},"data":data}) : helper)))
+    + "\" class=\"content\">\n\n        <div class=\"progress\">\n            <div id=\""
+    + alias4(((helper = (helper = helpers.id_progress || (depth0 != null ? depth0.id_progress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_progress","hash":{},"data":data}) : helper)))
+    + "\" class=\"progress-bar\" role=\"progressbar\" style=\"width: 100%;\">\n            </div>\n        </div>\n\n    </div>\n\n</div>";
 },"useData":true});
 
 this["adcirc"]["templates"]["node_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

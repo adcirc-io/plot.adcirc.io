@@ -7,11 +7,11 @@
         </label>
         <i class="fa fa-angle-down pull-right clickable clickable-secondary"></i>
         <div class="subtitle">
-            Nodes: {{ num_nodes }} Timesteps: {{ num_timesteps }}
+            Nodes: <span id="{{ id_num_nodes }}">0</span> Timesteps: <span id="{{ id_num_timesteps }}">0</span>
         </div>
     </div>
 
-    <div id="{{ id_content_wrapper }}" class="content">
+    <div id="{{ id_view_data }}" class="content">
 
         <!-- Plotted data -->
         <div id="{{ id_data_list }}">
@@ -38,6 +38,15 @@
                         <li><a id="{{ id_add_min_max }}">Min/Max Elevation</a></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="{{ id_view_loading }}" class="content">
+
+        <div class="progress">
+            <div id="{{ id_progress }}" class="progress-bar" role="progressbar" style="width: 100%;">
             </div>
         </div>
 
