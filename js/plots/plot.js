@@ -8,6 +8,9 @@ function Plot( container ) {
     
     // ID
     this.id = guid();
+
+    // Controllers
+    this.controllers = [];
     
     // Add the plot to the container
     this.parent.append(
@@ -26,12 +29,38 @@ function Plot( container ) {
         // Listen to the controller for plottable data
         controller.addEventListener( 'remove', self.on_remove );
         controller.addEventListener( 'timeseries', self.on_timeseries );
+
+        // Save the controller
+        self.controllers.push( controller );
+
+        // Dispatch event so that controller can be initialized
+        self.dispatchEvent( { type: 'controller_added', controller: controller } );
         
     };
     
     this.resize = function () {
         
         self.line_plot.resize();
+        
+    };
+    
+    this.set_active = function () {
+      
+        for ( var i=0; i<self.controllers.length; ++i  ) {
+
+            self.controllers[i].show_display();
+
+        }
+        
+    };
+    
+    this.set_inactive = function () {
+
+        for ( var i=0; i<self.controllers.length; ++i )  {
+
+            self.controllers[i].hide_display();
+
+        }
         
     };
 

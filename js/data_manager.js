@@ -9,6 +9,24 @@ function DataManager () {
 
     
     // Public Functions
+    this.generate_controllers = function () {
+
+        var controllers = [];
+
+        for ( var id in self.datasets ) {
+
+            if ( self.datasets.hasOwnProperty( id ) ) {
+
+                controllers.push( self.datasets[ id ].get_controller() );
+
+            }
+
+        }
+
+        return controllers;
+
+    };
+
     this.open_fort_63 = function ( file ) {
         
         // Create the dataset

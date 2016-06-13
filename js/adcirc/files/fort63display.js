@@ -85,6 +85,18 @@ function Fort63Display ( file_name ) {
 
     };
 
+    this.hide = function () {
+
+        self.div.hide();
+
+    };
+
+    this.show = function () {
+
+        self.div.show();
+
+    };
+
     // Event handlers
     this.on_add_node = function ( event ) {
 

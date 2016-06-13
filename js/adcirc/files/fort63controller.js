@@ -9,6 +9,12 @@ function Fort63Controller ( fort63 ) {
 
 
     // Functions
+    this.hide_display = function () {
+        
+        self.display.hide();
+        
+    };
+    
     this.initialize_display = function ( container ) {
 
         // Add the display HTML to the container
@@ -27,6 +33,12 @@ function Fort63Controller ( fort63 ) {
         self.data.addEventListener( 'progress', self.on_data_progress );
         self.data.addEventListener( 'ready', self.on_data_ready );
 
+    };
+    
+    this.show_display = function () {
+        
+        self.display.show();
+        
     };
 
 
