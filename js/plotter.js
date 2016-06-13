@@ -14,9 +14,29 @@ function Plotter () {
     this.sidebar = new Sidebar( 'sidebar' );
 
     // Page elements
+    this.add_plot = $( '#plot-placeholder' )[0];
     this.fort_63_picker = $( '#fort63_picker' )[0];
 
     // Event handlers
+    this.on_add_plot = function () {
+
+        self.inactive_plots.push( new Plot( '#plotting-area' ) );
+
+    };
+
+    this.on_fort_63_picked = function () {
+
+        // Get the file
+        var file = self.fort_63_picker.files[0];
+
+        // Tell data manager to open it
+        self.data_manager.open_fort_63( file );
+
+        // Reset the picker
+        self.fort_63_picker.value = null;
+
+    };
+
     this.on_new_data = function ( event ) {
 
         // Get the dataset
@@ -38,19 +58,6 @@ function Plotter () {
 
     };
 
-    this.on_fort_63_picked = function () {
-
-        // Get the file
-        var file = self.fort_63_picker.files[0];
-
-        // Tell data manager to open it
-        self.data_manager.open_fort_63( file );
-
-        // Reset the picker
-        self.fort_63_picker.value = null;
-
-    };
-
     this.on_resize = function () {
 
         self.active_plot.resize();
@@ -65,6 +72,8 @@ function Plotter () {
 
     // Event listeners
     self.data_manager.addEventListener( 'new_data', self.on_new_data );
+
+    self.add_plot.addEventListener( 'click', self.on_add_plot );
     self.fort_63_picker.addEventListener( 'change', self.on_fort_63_picked );
 
 }

@@ -23,7 +23,7 @@ html, body {
 }
 
 .clickable-group {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .clickable-group:hover .clickable-primary,
@@ -56,4 +56,9 @@ html, body {
     align-items: center;
     justify-content: center;
     flex-direction: row;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
 }

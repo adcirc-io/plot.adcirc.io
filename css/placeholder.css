@@ -1,0 +1,17 @@
+
+.placeholder {
+
+    padding: 5px 0 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    float: none;
+    margin: 0 auto;
+}
+
+.placeholder-tall {
+
+    padding: 35px 0 35px 0;
+
+}

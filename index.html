@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
     <link rel="stylesheet" type="text/css" href="css/node_picker.css" />
     <link rel="stylesheet" type="text/css" href="css/options.css" />
+    <link rel="stylesheet" type="text/css" href="css/placeholder.css" />
     <link rel="stylesheet" type="text/css" href="css/plots/axis.css" />
     <link rel="stylesheet" type="text/css" href="css/plots/line_plot.css" />
     <link rel="stylesheet" type="text/css" href="css/plots/plot.css" />
@@ -40,7 +41,7 @@
 <body>
 
     <!-- Top navigation -->
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-default navbar-fixed-top">
 
         <div class="container-fluid">
 
@@ -102,15 +103,15 @@
                         <i class="fa fa-chevron-down pull-right clickable clickable-primary"></i>
                     </label>
 
-                    <div id="data-placeholder" class="sidebar-section clickable-group">
-                        <div class="placeholder">
+                    <div id="data-placeholder" class="sidebar-section placeholder">
+                        <div class="clickable-group">
                             <span class="fa-stack fa-2x clickable-primary">
                                 <i class="fa fa-circle-o fa-stack-2x"></i>
                                 <i class="fa fa-plus fa-stack-1x"></i>
                             </span>
-                        </div>
-                        <div class="placeholder clickable-primary">
-                            Add Dataset
+                            <div class="clickable-primary">
+                                Add Dataset
+                            </div>
                         </div>
                     </div>
 
@@ -123,8 +124,8 @@
                         <i class="fa fa-chevron-down pull-right clickable clickable-primary"></i>
                     </label>
 
-                    <div id="options-placeholder" class="sidebar-section">
-                        <div class="placeholder">
+                    <div id="options-placeholder" class="sidebar-section placeholder">
+                        <div>
                             None yet, try plotting some data!
                         </div>
                     </div>
@@ -141,6 +142,18 @@
 
                 <div id="plotting-area" class="row plotting-area">
 
+                </div>
+
+                <div id="plot-placeholder" class="placeholder placeholder-tall">
+                    <div class="clickable-group">
+                        <span class="fa-stack fa-2x clickable-primary">
+                            <i class="fa fa-circle-o fa-stack-2x"></i>
+                            <i class="fa fa-plus fa-stack-1x"></i>
+                        </span>
+                        <div class="clickable-primary">
+                            Add Plot
+                        </div>
+                    </div>
                 </div>
 
             </div>
