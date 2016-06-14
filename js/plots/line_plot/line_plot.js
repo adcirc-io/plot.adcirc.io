@@ -37,7 +37,7 @@ function LinePlotChart ( container ) {
     };
     
     this.remove = function ( id ) {
-
+        
         // Remove the line from the chart
         d3.selectAll( '#d' + id ).remove();
 
@@ -96,10 +96,13 @@ function LinePlotChart ( container ) {
         self.update_bounds( id, data );
 
         // Perform join on plot ID, add it if it doesn't exist
-        self.svg.selectAll( '#d' + id ).data( [data] )
-            .enter().append( 'path' )
-            .attr( 'class', 'line' )
-            .attr( 'id', 'd' + id );
+        var select = self.svg.selectAll( '#d' + id ).data( data );
+
+        select.enter().append( 'path' )
+              .attr( 'class', 'line' )
+              .attr( 'id', 'd' + id );
+
+        select.exit().remove();
 
         // Update all lines
         self.svg.selectAll( '.line' ).transition().duration( self.animation_duration ).attr( 'd', self.line );
@@ -112,9 +115,9 @@ function LinePlotChart ( container ) {
         if ( id && data ) {
 
             // Get the min/max ranges
-            var xmax = data.length;
-            var ymin = d3.min( data );
-            var ymax = d3.max( data );
+            var xmax = d3.max( _.map( data, function ( timeseries ) { return timeseries.length; } ) );
+            var ymin = d3.min( _.map( data, function ( timeseries ) { return d3.min( timeseries ); } ) );
+            var ymax = d3.max( _.map( data, function ( timeseries ) { return d3.max( timeseries ); } ) );
 
             // Update the range values if we've got them, add them if we don't
             var found = false;

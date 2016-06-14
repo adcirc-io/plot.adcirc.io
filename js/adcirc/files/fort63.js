@@ -93,7 +93,7 @@ function Fort63 ( file ) {
             callback: callback
         };
 
-        // If there queue for this node exists, we're already loading the data
+        // If the queue for this node exists, we're already loading the data
         if ( self.callbacks[ node_number_str ] ) {
 
             self.callbacks[ node_number_str ].push( cb );

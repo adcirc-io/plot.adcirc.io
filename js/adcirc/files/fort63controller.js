@@ -23,9 +23,10 @@ function Fort63Controller ( fort63 ) {
         self.display.set_num_timesteps( self.data.num_timesteps );
 
         // Start listening for events from the display
-        self.display.addEventListener( 'add_node', self.on_add_node );
         self.display.addEventListener( 'change_node', self.on_change_node );
+        self.display.addEventListener( 'change_nodes', self.on_change_nodes );
         self.display.addEventListener( 'remove_node', self.on_remove_node );
+        self.display.addEventListener( 'remove_nodes', self.on_remove_node );
         
         // Start listening for events from the data
         self.data.addEventListener( 'header', self.on_data_header );
@@ -42,28 +43,6 @@ function Fort63Controller ( fort63 ) {
 
 
     // Event Handlers
-    this.on_add_node = function ( event ) {
-
-        // A new node has been added. Request the data and send it to the plot
-        var node_id = event.id;
-        var node_number = event.node;
-        
-        self.data.get_nodal_timeseries( node_id, node_number, function ( id, node_number, data ) {
-
-            // Tell the plot to plot the node
-            self.dispatchEvent({
-
-                type: 'timeseries',
-                id: id,
-                title: 'Node ' + node_number,
-                data: data
-
-            });
-
-        });
-
-    };
-    
     this.on_change_node = function ( event ) {
         
         // An existing node has been changed. Request the data and send it to the plot
@@ -78,12 +57,44 @@ function Fort63Controller ( fort63 ) {
                 type: 'timeseries',
                 id: id,
                 title: 'Node ' + node_number,
-                data: data
+                data: [data]
 
             });
 
         });
         
+    };
+
+    this.on_change_nodes = function ( event ) {
+
+        var node_id = event.id;
+        var node_list = event.nodes;
+        var node_string = event.string;
+        var alldata = [];
+
+        _.each( node_list, function ( node ) {
+
+            self.data.get_nodal_timeseries( node_id, node, function ( id, node_number, data ) {
+
+                alldata.push( data );
+
+                if ( alldata.length == node_list.length ) {
+
+                    self.dispatchEvent({
+
+                        type: 'timeseries',
+                        id: id,
+                        title: 'Nodes ' + node_string,
+                        data: alldata
+
+                    });
+
+                }
+
+            });
+
+        });
+
     };
     
     this.on_data_header = function ( event ) {

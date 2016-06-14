@@ -18,7 +18,7 @@ function Fort63Display () {
     this.id_progress = guid();
 
     // Private Variables
-    this._num_node_pickers = 0;
+    this._num_pickers = 0;
     this._num_nodes = 0;
     
     // Generate HTML
@@ -84,6 +84,7 @@ function Fort63Display () {
 
         // Listen for events
         self.add_node.click( self.on_add_node );
+        self.add_nodes.click( self.on_add_nodes );
 
     };
 
@@ -106,7 +107,7 @@ function Fort63Display () {
 
         // Make sure placeholder is hidden
         self.data_list_placeholder.hide();
-        self._num_node_pickers += 1;
+        self._num_pickers += 1;
         
         // Create a node picker
         var id = guid();
@@ -127,7 +128,34 @@ function Fort63Display () {
         $( '#x' + id )[0].addEventListener( 'click', self.on_remove_node );
 
         // Tell the controller that a node has been added
-        self.dispatchEvent( { type: 'add_node', id: id, node: 1 } );
+        self.dispatchEvent( { type: 'change_node', id: id, node: 1 } );
+
+    };
+
+    this.on_add_nodes = function ( event ) {
+
+        event.preventDefault();
+
+        // Make sure placeholder is hidden
+        self.data_list_placeholder.hide();
+        self._num_pickers += 1;
+
+        // Create a nodes picker
+        var id = guid();
+        var nodes_picker = adcirc.templates.nodes_picker(
+            {
+                id: id,
+                picker_id: 'p' + id,
+                remove_id: 'x' + id
+            }
+        );
+
+        // Add nodes picker
+        self.data_list.append( nodes_picker );
+
+        // Listen for events
+        $( '#p' + id )[0].addEventListener( 'change', self.on_change_nodes );
+        $( '#x' + id )[0].addEventListener( 'click', self.on_remove_nodes );
 
     };
 
@@ -143,6 +171,43 @@ function Fort63Display () {
 
     };
 
+    this.on_change_nodes = function ( event ) {
+
+        event.preventDefault();
+
+        // Get the node picker id and new text
+        var id = event.target.id.substring( 1 );
+        var text = event.target.value;
+
+        // Parse each input value or range
+        var regex_number = /\d+(?=\D|$)/g
+        var regex_range = /\d+\s*\-\s*\d+/g;
+
+        var numbers = text.match( regex_number );
+        var ranges = text.match( regex_range );
+
+        var node_list = _.map( numbers, function ( number ) { return parseInt( number ); } );
+
+        _.each( ranges, function ( range ) {
+
+            var bounds = range.match( regex_number );
+
+            if ( bounds.length == 2 ) {
+
+                var lower_bound = parseInt( bounds[ 0 ] );
+                var upper_bound = parseInt( bounds[ 1 ] );
+
+                node_list = _.union( node_list, _.range( lower_bound, upper_bound + 1 ) );
+
+            }
+
+        });
+
+        self.dispatchEvent( { type: 'change_nodes', id: id, nodes: node_list, string: text } );
+
+
+    };
+
     this.on_remove_node = function ( event ) {
 
         event.preventDefault();
@@ -154,8 +219,8 @@ function Fort63Display () {
         $( '#' + id )[0].remove();
 
         // Check if this was the last node
-        self._num_node_pickers -= 1;
-        if ( self._num_node_pickers == 0 ) {
+        self._num_pickers -= 1;
+        if ( self._num_pickers == 0 ) {
 
             // It was, so show the placeholder
             self.data_list_placeholder.show();
@@ -164,6 +229,30 @@ function Fort63Display () {
 
         // Dispatch event
         self.dispatchEvent( { type: 'remove_node', id: id } );
+
+    };
+
+    this.on_remove_nodes = function ( event ) {
+
+        event.preventDefault();
+
+        // Get the node picker id
+        var id = event.target.id.substring( 1 );
+
+        // Remove the picker
+        $( '#' + id )[0].remove();
+
+        // Check if this was the last node
+        self._num_pickers -= 1;
+        if ( self._num_pickers == 0 ) {
+
+            // It was, so show the placeholder
+            self.data_list_placeholder.show();
+
+        }
+
+        // Dispatch event
+        self.dispatchEvent( { type: 'remove_nodes', id: id } );
 
     };
 
