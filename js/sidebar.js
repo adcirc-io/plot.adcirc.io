@@ -20,22 +20,6 @@ function Sidebar ( id ) {
         controller.initialize_display( self.data );
         
     };
-
-    this.on_controller_added = function ( event ) {
-
-        // Make sure data placeholder is hidden
-        self.data_placeholder.hide();
-
-        // Add the controller to the display
-        event.controller.initialize_display( self.data );
-
-    };
-
-    this.set_current_plot = function ( plot ) {
-
-
-
-    };
     
 }
 

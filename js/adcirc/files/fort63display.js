@@ -1,4 +1,4 @@
-function Fort63Display ( file_name ) {
+function Fort63Display () {
 
     // Scoping
     var self = this;
@@ -24,7 +24,7 @@ function Fort63Display ( file_name ) {
     // Generate HTML
     this.html = adcirc.templates.fort63display(
         {
-            file_name: file_name,
+            file_name: 'fort.63',
             id: self.id,
             id_view_data: self.id_view_data,
             id_view_loading: self.id_view_loading,
@@ -40,7 +40,10 @@ function Fort63Display ( file_name ) {
         }
     );
 
-    this.initialize = function ( status, num_nodes, num_timesteps ) {
+    this.initialize = function ( container, status ) {
+
+        // Add everything to the page
+        container.append( self.html );
 
         // Get HTML elements
         self.div = $( '#' + self.id );
@@ -55,6 +58,9 @@ function Fort63Display ( file_name ) {
         self.num_nodes = $( '#' + self.id_num_nodes );
         self.num_timesteps = $( '#' + self.id_num_timesteps );
         self.progress = $( '#' + self.id_progress );
+
+        // Initially hide everything
+        self.div.hide();
 
         // Show loadbar or data, depending on the status
         switch ( status ) {
@@ -75,10 +81,6 @@ function Fort63Display ( file_name ) {
                 break;
 
         }
-
-        // Set the number of nodes and timesteps
-        self.set_num_nodes( num_nodes );
-        self.set_num_timesteps( num_timesteps );
 
         // Listen for events
         self.add_node.click( self.on_add_node );

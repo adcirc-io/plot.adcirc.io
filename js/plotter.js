@@ -7,7 +7,6 @@ function Plotter () {
     // Variables
     this.active_plot = null;
     this.data_manager = new DataManager();
-    this.inactive_plots = [];
     this.plots = {};
     this.sidebar = new Sidebar( 'sidebar' );
 
@@ -23,10 +22,12 @@ function Plotter () {
         var element = $( '#' + plot.id )[0];
 
         // Add controllers
-        var controllers = self.data_manager.generate_controllers();
-        for ( var i=0; i<controllers.length; ++i ) {
-            plot.add_controller( controllers[i] );
-        }
+        self.data_manager.generate_controllers( function ( controller ) {
+
+            plot.add_controller( controller );
+            self.sidebar.add_controller( controller );
+
+        });
         
         // Add event listeners
         element.addEventListener( 'click', self.on_click );
@@ -54,10 +55,11 @@ function Plotter () {
     // Event handlers
     this.on_add_plot = function () {
 
-        // var plot = 
-        self.add_plot();
-        
-        // self.inactive_plots.push( plot );
+        // Create the new plot
+        var new_plot = self.add_plot();
+
+        // Make the new plot active
+        self.set_active_plot( new_plot );
 
     };
 
@@ -122,25 +124,17 @@ function Plotter () {
 
             if ( self.plots.hasOwnProperty( id ) ) {
 
-                self.plots[ id ].add_controller( dataset.get_controller() );
+                var controller = dataset.get_controller();
+                self.plots[ id ].add_controller( controller );
+                self.sidebar.add_controller( controller );
+
 
             }
 
         }
 
-        // // Add a controller for the active plot
-        // var active_controller = dataset.get_controller();
-        // self.active_plot.add_controller( active_controller );
-        //
-        // // Add controllers to the inactive plots
-        // for ( var i=0; i<self.inactive_plots.length; ++i ) {
-        //
-        //     self.inactive_plots[i].add_controller( dataset.get_controller() );
-        //
-        // }
-        //
-        // Add the active controller to the sidebar
-        // self.sidebar.add_controller( active_controller );
+        // Make sure the active plot has everything displayed
+        self.plots[ self.active_plot ].set_active();
 
     };
 
@@ -155,14 +149,6 @@ function Plotter () {
             }
 
         }
-
-        // self.get_active_plot.resize();
-        //
-        // for ( var i=0; i<self.inactive_plots.length; ++i ) {
-        //
-        //     self.inactive_plots[i].resize();
-        //
-        // }
 
     };
 

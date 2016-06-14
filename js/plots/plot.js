@@ -32,9 +32,6 @@ function Plot( container ) {
 
         // Save the controller
         self.controllers.push( controller );
-
-        // Dispatch event so that controller can be initialized
-        self.dispatchEvent( { type: 'controller_added', controller: controller } );
         
     };
     

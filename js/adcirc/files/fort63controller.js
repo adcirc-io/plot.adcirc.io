@@ -17,11 +17,10 @@ function Fort63Controller ( fort63 ) {
     
     this.initialize_display = function ( container ) {
 
-        // Add the display HTML to the container
-        container.append( self.display.html );
-
-        // Notify the display that the HTML is now on the page
-        self.display.initialize( self.data.status, self.data.num_nodes, self.data.num_timesteps );
+        // Initialize the display
+        self.display.initialize( container, self.data.status );
+        self.display.set_num_nodes( self.data.num_nodes );
+        self.display.set_num_timesteps( self.data.num_timesteps );
 
         // Start listening for events from the display
         self.display.addEventListener( 'add_node', self.on_add_node );

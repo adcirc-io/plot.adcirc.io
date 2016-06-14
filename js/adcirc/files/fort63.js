@@ -20,7 +20,6 @@ function Fort63 ( file ) {
     var error_event = { type: 'error' };
     var header_event = { type: 'header' };
     var progress_event = { type: 'progress' };
-    var progress_unknown_event = { type: 'progress_unknown' };
     var ready_event = { type: 'ready' };
 
 
@@ -34,7 +33,7 @@ function Fort63 ( file ) {
 
     this.get_display = function () {
 
-        return new Fort63Display( self.file.name );
+        return new Fort63Display();
 
     };
 

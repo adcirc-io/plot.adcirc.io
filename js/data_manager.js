@@ -9,21 +9,17 @@ function DataManager () {
 
     
     // Public Functions
-    this.generate_controllers = function () {
-
-        var controllers = [];
+    this.generate_controllers = function ( callback ) {
 
         for ( var id in self.datasets ) {
 
             if ( self.datasets.hasOwnProperty( id ) ) {
 
-                controllers.push( self.datasets[ id ].get_controller() );
+                callback( self.datasets[ id ].get_controller() );
 
             }
 
         }
-
-        return controllers;
 
     };
 
