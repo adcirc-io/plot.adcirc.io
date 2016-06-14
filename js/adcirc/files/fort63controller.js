@@ -25,8 +25,8 @@ function Fort63Controller ( fort63 ) {
         // Start listening for events from the display
         self.display.addEventListener( 'change_node', self.on_change_node );
         self.display.addEventListener( 'change_nodes', self.on_change_nodes );
-        self.display.addEventListener( 'remove_node', self.on_remove_node );
-        self.display.addEventListener( 'remove_nodes', self.on_remove_node );
+        self.display.addEventListener( 'remove_node', self.on_remove );
+        self.display.addEventListener( 'remove_nodes', self.on_remove );
         
         // Start listening for events from the data
         self.data.addEventListener( 'header', self.on_data_header );
@@ -116,7 +116,7 @@ function Fort63Controller ( fort63 ) {
         
     };
 
-    this.on_remove_node = function ( event ) {
+    this.on_remove = function ( event ) {
 
         // Tell the plot to remove the node
         self.dispatchEvent({
