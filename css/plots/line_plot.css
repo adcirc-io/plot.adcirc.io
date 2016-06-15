@@ -1,12 +1,13 @@
 
 .area {
-    fill: steelblue;
+    fill: lightgray;
+    fill-opacity: 0.75;
 }
 
 .line {
     fill: none;
     stroke: steelblue;
-    stroke-width: 1px;
+    stroke-width: 0.75px;
 }
 
 .dot {

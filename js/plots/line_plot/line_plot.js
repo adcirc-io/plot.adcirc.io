@@ -88,6 +88,33 @@ function LinePlotChart ( container ) {
             .attr( 'd', self.line );
 
 
+        self.svg.selectAll( '.area' )
+            .transition()
+            .duration( self.animation_duration )
+            .attr( 'd', self.area );
+
+
+    };
+    
+    this.set_area = function ( id, title, data ) {
+
+        // Update the plot bounds
+        self.update_bounds( id, [ data.lower_bound, data.upper_bound ] );
+
+        // Perform join on plot ID, add it if it doesn't exist
+        var select = self.midground.selectAll( '#d' + id ).data( [ _.zip( data.lower_bound, data.upper_bound ) ] );
+
+        select.enter().append( 'path' )
+              .attr( 'class', 'area' )
+              .attr( 'id', 'd' + id )
+              .attr( 'd', self.area );
+
+        select.exit().remove();
+
+        // Update everything
+        self.svg.selectAll( '.line' ).transition().duration( self.animation_duration ).attr( 'd', self.line );
+        self.svg.selectAll( '.area' ).transition().duration( self.animation_duration ).attr( 'd', self.area );
+        
     };
 
     this.set_data = function ( id, title, data ) {
@@ -96,7 +123,7 @@ function LinePlotChart ( container ) {
         self.update_bounds( id, data );
 
         // Perform join on plot ID, add it if it doesn't exist
-        var select = self.svg.selectAll( '#d' + id ).data( data );
+        var select = self.foreground.selectAll( '#d' + id ).data( data );
 
         select.enter().append( 'path' )
               .attr( 'class', 'line' )
@@ -104,8 +131,9 @@ function LinePlotChart ( container ) {
 
         select.exit().remove();
 
-        // Update all lines
+        // Update everything
         self.svg.selectAll( '.line' ).transition().duration( self.animation_duration ).attr( 'd', self.line );
+        self.svg.selectAll( '.area' ).transition().duration( self.animation_duration ).attr( 'd', self.area );
         
 
     };
@@ -162,12 +190,6 @@ function LinePlotChart ( container ) {
     };
 
 
-    // Create the plotting functions
-    this.line = d3.svg.line()
-                  .defined( self.defined )
-                  .x( self.domain_value )
-                  .y( self.range_value );
-
     // Add the plot
     this.svg = this.parent.append( 'svg' )
                    .attr( 'width', container_width )
@@ -175,7 +197,28 @@ function LinePlotChart ( container ) {
                    .append( 'g' )
                    .attr( 'transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')' );
 
+    // Create layers
+    this.background = this.svg.append( 'g' );
+    this.midground = this.svg.append( 'g' );
+    this.foreground = this.svg.append( 'g' );
+
+
     // Add the axis to the plot
-    this.axis = new Axis( self.svg, self.width, self.height );
+    this.axis = new Axis( self.background, self.width, self.height );
+
+
+    // Create the plotting functions
+    this.line = d3.svg.line()
+                  .defined( self.defined )
+                  .x( self.domain_value )
+                  .y( self.range_value )
+                  .interpolate( 'monotone' );
+
+    this.area = d3.svg.area()
+                  .defined( function ( d ) { return d[0] && d[1]; } )
+                  .x( self.domain_value )
+                  .y0( function ( d ) { return self.axis.y( d[0] ); } )
+                  .y1( function ( d ) { return self.axis.y( d[1] ); } )
+                  .interpolate( 'monotone' );
     
 }

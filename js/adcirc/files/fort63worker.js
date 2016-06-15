@@ -10,6 +10,10 @@ var _progress_interval = 0;
 var _current_percent = 0;
 var _current_progress = 0;
 
+// Min/max timeseries
+var mints = [];
+var maxts = [];
+
 self.addEventListener( 'message', function ( message ) {
 
     var action = message.data.action;
@@ -20,6 +24,11 @@ self.addEventListener( 'message', function ( message ) {
 
             load_file( message.data.file );
             break;
+
+        case 'get_min_max_timeseries':
+
+            get_min_max_timeseries();
+            break;
         
         case 'get_nodal_timeseries':
             
@@ -29,6 +38,25 @@ self.addEventListener( 'message', function ( message ) {
     }
 
 });
+
+
+function get_min_max_timeseries () {
+
+    var min = new Float32Array( mints );
+    var max = new Float32Array( maxts );
+
+    var data = {
+        type: 'min_max_timeseries',
+        min: min.buffer,
+        max: max.buffer
+    };
+
+    self.postMessage(
+        data,
+        [data.min, data.max]
+    );
+
+}
 
 
 function get_nodal_timeseries ( node ) {
@@ -81,15 +109,37 @@ function load_file ( file ) {
 
         var start_line = 2 + ts * ( num_nodes + 1 );
 
+        var currmin = Infinity;
+        var currmax = -Infinity;
+
         for ( node=1; node<num_nodes+1; ++node ) {
 
             var dat = parseFloat( lines[ start_line+node ].match( nonwhite_regex )[1] );
             if ( dat != -99999 ) {
+
                 nodal_timeseries[ node.toString() ].push( dat );
+
+                if ( dat > currmax ) currmax = dat;
+                if ( dat < currmin ) currmin = dat;
+
             } else {
+
                 nodal_timeseries[ node.toString() ].push( null );
+
             }
 
+        }
+
+        if ( currmax != Infinity ) {
+            maxts.push( currmax );
+        } else {
+            maxts.push( null );
+        }
+
+        if ( currmin != Infinity ) {
+            mints.push( currmin );
+        } else {
+            mints.push( null );
         }
 
         post_progress();

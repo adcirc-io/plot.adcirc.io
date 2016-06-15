@@ -23,8 +23,10 @@ function Fort63Controller ( fort63 ) {
         self.display.set_num_timesteps( self.data.num_timesteps );
 
         // Start listening for events from the display
+        self.display.addEventListener( 'add_min_max', self.on_add_min_max );
         self.display.addEventListener( 'change_node', self.on_change_node );
         self.display.addEventListener( 'change_nodes', self.on_change_nodes );
+        self.display.addEventListener( 'remove_min_max', self.on_remove );
         self.display.addEventListener( 'remove_node', self.on_remove );
         self.display.addEventListener( 'remove_nodes', self.on_remove );
         
@@ -43,6 +45,28 @@ function Fort63Controller ( fort63 ) {
 
 
     // Event Handlers
+    this.on_add_min_max = function ( event ) {
+        
+        var id = event.id;
+        
+        self.data.get_min_max_timeseries( id, function ( id, data ) {
+
+            self.dispatchEvent({
+
+                type: 'area',
+                id: id,
+                title: 'Min/Max',
+                data: {
+                    lower_bound: data.min,
+                    upper_bound: data.max
+                }
+
+            });
+
+        });
+        
+    };
+    
     this.on_change_node = function ( event ) {
         
         // An existing node has been changed. Request the data and send it to the plot

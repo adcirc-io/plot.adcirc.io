@@ -83,6 +83,7 @@ function Fort63Display () {
         }
 
         // Listen for events
+        self.add_min_max.click( self.on_add_min_max );
         self.add_node.click( self.on_add_node );
         self.add_nodes.click( self.on_add_nodes );
 
@@ -101,6 +102,41 @@ function Fort63Display () {
     };
 
     // Event handlers
+    this.on_add_min_max = function ( event ) {
+
+        if ( !self.add_min_max.hasClass( 'disabled' ) ) {
+
+            event.preventDefault();
+
+            // Make sure placeholder is hidden
+            self.data_list_placeholder.hide();
+            self._num_pickers += 1;
+
+            // Create a min/max picker
+            var id = guid();
+            var picker = adcirc.templates.min_max_picker(
+                {
+                    id: id,
+                    remove_id: 'x' + id
+                }
+            );
+
+            // Add the picker
+            self.data_list.append( picker );
+
+            // Disable the button
+            self.add_min_max.addClass( 'disabled' );
+
+            // Listen for events
+            $( '#x' + id )[ 0 ].addEventListener( 'click', self.on_remove_min_max );
+
+            // Tell the controller that a picker has been added
+            self.dispatchEvent( { type: 'add_min_max', id: id } );
+
+        }
+        
+    };
+    
     this.on_add_node = function ( event ) {
 
         event.preventDefault();
@@ -205,6 +241,33 @@ function Fort63Display () {
 
         self.dispatchEvent( { type: 'change_nodes', id: id, nodes: node_list, string: text } );
 
+
+    };
+
+    this.on_remove_min_max = function ( event ) {
+
+        event.preventDefault();
+
+        // Get the picker id
+        var id = event.target.id.substring( 1 );
+
+        // Remove the picker
+        $( '#' + id )[0].remove();
+
+        // Check if this was the last picker
+        self._num_pickers -= 1;
+        if ( self._num_pickers == 0 ) {
+
+            // It was, so show the placeholder
+            self.data_list_placeholder.show();
+
+        }
+
+        // Enable the button
+        self.add_min_max.removeClass( 'disabled' );
+
+        // Dispatch event
+        self.dispatchEvent( { type: 'remove_min_max', id: id } );
 
     };
 

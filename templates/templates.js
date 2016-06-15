@@ -24,13 +24,23 @@ this["adcirc"]["templates"]["fort63display"] = Handlebars.template({"compiler":[
     + alias4(((helper = (helper = helpers.id_add_node || (depth0 != null ? depth0.id_add_node : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_add_node","hash":{},"data":data}) : helper)))
     + "\" type=\"button\" class=\"btn btn-default\">Node</button>\n                <button id=\""
     + alias4(((helper = (helper = helpers.id_add_nodes || (depth0 != null ? depth0.id_add_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_add_nodes","hash":{},"data":data}) : helper)))
-    + "\" type=\"button\" class=\"btn btn-default\">Nodes</button>\n\n                <div class=\"btn-group btn-group-sm\" role=\"group\">\n                    <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">\n                        Other\n                        <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu\">\n                        <li><a id=\""
+    + "\" type=\"button\" class=\"btn btn-default\">Nodes</button>\n                <button id=\""
     + alias4(((helper = (helper = helpers.id_add_min_max || (depth0 != null ? depth0.id_add_min_max : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_add_min_max","hash":{},"data":data}) : helper)))
-    + "\">Min/Max Elevation</a></li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n\n    </div>\n\n    <div id=\""
+    + "\" type=\"button\" class=\"btn btn-default\">Min/Max</button>\n\n            </div>\n        </div>\n\n    </div>\n\n    <div id=\""
     + alias4(((helper = (helper = helpers.id_view_loading || (depth0 != null ? depth0.id_view_loading : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_view_loading","hash":{},"data":data}) : helper)))
     + "\" class=\"content\">\n\n        <div class=\"progress\">\n            <div id=\""
     + alias4(((helper = (helper = helpers.id_progress || (depth0 != null ? depth0.id_progress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id_progress","hash":{},"data":data}) : helper)))
     + "\" class=\"progress-bar\" role=\"progressbar\" style=\"width: 100%;\">\n            </div>\n        </div>\n\n    </div>\n\n</div>";
+},"useData":true});
+
+this["adcirc"]["templates"]["min_max_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"node-picker row vertical-align\">\n    <div class=\"title col-sm-3\">\n        Min/Max:\n    </div>\n    <div class=\"title controller filler col-sm-6\">\n        All Nodes\n    </div>\n    <div class=\"extras col-sm-3\">\n        <i class=\"fa fa-cog clickable clickable-primary\"></i>\n        <i id=\""
+    + alias4(((helper = (helper = helpers.remove_id || (depth0 != null ? depth0.remove_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"remove_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"fa fa-times clickable clickable-primary\"></i>\n    </div>\n</div>";
 },"useData":true});
 
 this["adcirc"]["templates"]["node_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

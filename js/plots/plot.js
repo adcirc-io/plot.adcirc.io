@@ -27,6 +27,7 @@ function Plot( container ) {
     this.add_controller = function ( controller ) {
 
         // Listen to the controller for plottable data
+        controller.addEventListener( 'area', self.on_area );
         controller.addEventListener( 'remove', self.on_remove );
         controller.addEventListener( 'timeseries', self.on_timeseries );
 
@@ -65,6 +66,16 @@ function Plot( container ) {
 
         var id = event.id;
         self.line_plot.remove( id );
+
+    };
+
+    this.on_area = function ( event ) {
+
+        var id = event.id;
+        var title = event.title;
+        var data = event.data;
+
+        self.line_plot.set_area( id, title, data );
 
     };
 

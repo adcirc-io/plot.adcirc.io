@@ -38,6 +38,24 @@ function Fort63 ( file ) {
     };
 
 
+    this.get_min_max_timeseries = function ( id, callback ) {
+
+        // Check cache for data
+        if ( self.timeseries[ 'minmax' ] ) {
+
+            // We've already got the data, so send it to the callback
+            callback( id, self.timeseries[ 'minmax' ] );
+
+        } else {
+
+            // We don't have the data yet, so load it
+            self.load_min_max_timeseries( id, callback );
+
+        }
+
+    };
+
+
     this.get_nodal_timeseries = function ( id, node_number, callback ) {
 
         var node_number_str = node_number.toString();
@@ -76,15 +94,36 @@ function Fort63 ( file ) {
     };
 
 
+    this.load_min_max_timeseries = function ( id, callback ) {
+
+        // Build the callback object
+        var cb = {
+            id: id,
+            callback: callback
+        };
+
+        // If minmax is already in the queue, we're already loading the data
+        if ( self.callbacks[ 'minmax' ] ) {
+
+            self.callbacks[ 'minmax' ].push( cb );
+
+        } else {
+
+            self.callbacks[ 'minmax' ] = [ cb ];
+
+            // Start loading the data
+            self.worker.postMessage({
+                action: 'get_min_max_timeseries'
+            });
+
+        }
+
+    };
+
+
     this.load_nodal_timeseries = function ( id, node_number, callback ) {
 
         var node_number_str = node_number.toString();
-
-        // Build the load message
-        var loadmessage = {
-            action: 'get_nodal_timeseries',
-            node: node_number_str
-        };
 
         // Build the callback object
         var cb = {
@@ -93,18 +132,20 @@ function Fort63 ( file ) {
             callback: callback
         };
 
-        // If the queue for this node exists, we're already loading the data
+        // If the node is in the queue, we're already loading the data
         if ( self.callbacks[ node_number_str ] ) {
 
             self.callbacks[ node_number_str ].push( cb );
 
         } else {
 
-            self.callbacks[ node_number_str ] = [];
-            self.callbacks[ node_number_str ].push( cb );
+            self.callbacks[ node_number_str ] = [ cb ];
 
             // Start loading the data
-            self.worker.postMessage( loadmessage );
+            self.worker.postMessage({
+                action: 'get_nodal_timeseries',
+                node: node_number_str
+            });
 
         }
 
@@ -131,6 +172,29 @@ function Fort63 ( file ) {
 
         self.dispatchEvent( header_event );
         
+    };
+
+
+    this.on_min_max_timeseries = function ( min_buffer, max_buffer ) {
+
+        // Cache the data
+        self.timeseries[ 'minmax' ] = {
+            min: new Float32Array( min_buffer ),
+            max: new Float32Array( max_buffer )
+        };
+
+        // Check for callbacks waiting for this dataset
+        if ( self.callbacks [ 'minmax' ] ) {
+
+            // For each callback object, pass the data to the callback function
+            _.each( self.callbacks[ 'minmax' ], function ( cb ) {
+
+                cb.callback( cb.id, self.timeseries[ 'minmax' ] );
+
+            });
+
+        }
+
     };
 
 
@@ -187,6 +251,11 @@ function Fort63 ( file ) {
             case 'header':
 
                 self.on_header( message.info, message.num_nodes, message.num_timesteps );
+                break;
+
+            case 'min_max_timeseries':
+
+                self.on_min_max_timeseries( message.min, message.max );
                 break;
 
             case 'nodal_timeseries':
