@@ -11,7 +11,7 @@ function Plotter () {
     this.sidebar = new Sidebar( 'sidebar' );
 
     // Page elements
-    this.button_add_plot = $( '#plot-placeholder' )[0];
+    this.button_add_plot = $( '#add-plot-button' )[0];
     this.picker_fort_63 = $( '#fort63_picker' )[0];
 
     
