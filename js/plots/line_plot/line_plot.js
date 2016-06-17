@@ -138,6 +138,13 @@ function LinePlotChart ( container ) {
 
     };
 
+    this.set_thickness = function ( id, thickness ) {
+
+        self.svg.selectAll( '#d' + id )
+            .style( 'stroke-width', thickness + 'px' );
+
+    };
+
     this.update_bounds = function ( id, data ) {
 
         if ( id && data ) {

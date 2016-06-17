@@ -115,9 +115,6 @@ function Fort63Display () {
         // Make new min/max picker
         var picker = new MinMaxPicker( self.data_list, self.add_min_max );
 
-        // Listen for events from the picker
-        picker.addEventListener( 'remove_min_max', self.on_remove_picker );
-
         // Dispatch an add picker event
         self.dispatchEvent( { type: 'add_min_max', id: picker.id } );
 
@@ -133,9 +130,9 @@ function Fort63Display () {
         // Make new node picker
         var picker = new NodePicker( self.data_list, self._num_nodes );
 
-        // Listen for events from the picker
+        // Listen for events from the node picker
         picker.addEventListener( 'change_node', self.passthrough );
-        picker.addEventListener( 'remove_node', self.on_remove_picker );
+        picker.addEventListener( 'change_thickness', self.passthrough );
 
         // Start out at node number 1
         picker.set_node( 1 );
@@ -152,9 +149,8 @@ function Fort63Display () {
         // Make new nodes picker
         var picker = new NodesPicker( self.data_list );
 
-        // Listen for events from the picker
+        // Listen for events from the nodes picker
         picker.addEventListener( 'change_nodes', self.passthrough );
-        picker.addEventListener( 'remove_nodes', self.on_remove_picker );
 
         // Fire on add picker event
         self.on_add_picker( picker );
@@ -162,6 +158,9 @@ function Fort63Display () {
     };
     
     this.on_add_picker = function ( picker ) {
+
+        // Listen for events common to all pickers
+        picker.addEventListener( 'remove', self.on_remove_picker );
 
         // Make sure placeholder is hidden
         self.data_list_placeholder.hide();

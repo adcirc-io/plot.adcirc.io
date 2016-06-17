@@ -25,7 +25,7 @@ function MinMaxPicker ( container, button ) {
         self.enable_button();
 
         self.dispatchEvent({
-            type: 'remove_min_max',
+            type: 'remove',
             id: self.id
         });
 

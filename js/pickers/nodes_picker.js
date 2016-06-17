@@ -59,7 +59,7 @@ function NodesPicker ( container ) {
         $( '#' + self.id )[0].remove();
 
         self.dispatchEvent({
-            type: 'remove_nodes',
+            type: 'remove',
             id: self.id
         });
 

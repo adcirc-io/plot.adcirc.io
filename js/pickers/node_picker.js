@@ -8,9 +8,12 @@ function NodePicker ( container, max_nodes ) {
         {
             id: self.id,
             max_nodes: max_nodes,
+            page_main_id: 'p_m' + self.id,
+            page_settings_id: 'p_s' + self.id,
             picker_id: 'p' + self.id,
+            remove_id: 'x' + self.id,
             settings_id: 's' + self.id,
-            remove_id: 'x' + self.id
+            settings_thickness_id: 's_t' + self.id
         }
     );
 
@@ -31,6 +34,18 @@ function NodePicker ( container, max_nodes ) {
 
     };
 
+    this.on_change_thickness = function ( event ) {
+
+        event.preventDefault();
+
+        self.dispatchEvent({
+            type: 'change_thickness',
+            id: self.id,
+            thickness: event.target.value
+        });
+
+    };
+
     this.on_remove_node = function ( event ) {
 
         event.preventDefault();
@@ -38,7 +53,7 @@ function NodePicker ( container, max_nodes ) {
         $( '#' + self.id )[0].remove();
 
         self.dispatchEvent({
-            type: 'remove_node',
+            type: 'remove',
             id: self.id
         });
 
@@ -56,6 +71,7 @@ function NodePicker ( container, max_nodes ) {
     // Listen for events from the picker
     $( '#p' + self.id ).on( 'change', self.on_change_node );
     $( '#x' + self.id ).on( 'click', self.on_remove_node );
+    $( '#s_t' + self.id ).on( 'change', self.on_change_thickness );
 
 }
 

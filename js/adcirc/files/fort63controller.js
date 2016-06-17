@@ -26,9 +26,8 @@ function Fort63Controller ( fort63 ) {
         self.display.addEventListener( 'add_min_max', self.on_add_min_max );
         self.display.addEventListener( 'change_node', self.on_change_node );
         self.display.addEventListener( 'change_nodes', self.on_change_nodes );
-        self.display.addEventListener( 'remove_min_max', self.on_remove );
-        self.display.addEventListener( 'remove_node', self.on_remove );
-        self.display.addEventListener( 'remove_nodes', self.on_remove );
+        self.display.addEventListener( 'change_thickness', self.passthrough );
+        self.display.addEventListener( 'remove', self.passthrough );
         
         // Start listening for events from the data
         self.data.addEventListener( 'header', self.on_data_header );
@@ -140,17 +139,11 @@ function Fort63Controller ( fort63 ) {
         
     };
 
-    this.on_remove = function ( event ) {
+    this.passthrough = function ( event ) {
 
-        // Tell the plot to remove the node
-        self.dispatchEvent({
+        self.dispatchEvent( event );
 
-            type: 'remove',
-            id: event.id
-
-        });
-
-    }
+    };
     
 }
 
