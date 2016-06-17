@@ -95,6 +95,12 @@ function Fort63Display () {
 
     };
 
+    this.passthrough = function ( event ) {
+
+        self.dispatchEvent( event );
+
+    };
+
     this.show = function () {
 
         self.div.show();
@@ -104,36 +110,19 @@ function Fort63Display () {
     // Event handlers
     this.on_add_min_max = function ( event ) {
 
-        if ( !self.add_min_max.hasClass( 'disabled' ) ) {
+        event.preventDefault();
 
-            event.preventDefault();
+        // Make new min/max picker
+        var picker = new MinMaxPicker( self.data_list, self.add_min_max );
 
-            // Make sure placeholder is hidden
-            self.data_list_placeholder.hide();
-            self._num_pickers += 1;
+        // Listen for events from the picker
+        picker.addEventListener( 'remove_min_max', self.on_remove_picker );
 
-            // Create a min/max picker
-            var id = guid();
-            var picker = adcirc.templates.min_max_picker(
-                {
-                    id: id,
-                    remove_id: 'x' + id
-                }
-            );
+        // Dispatch an add picker event
+        self.dispatchEvent( { type: 'add_min_max', id: picker.id } );
 
-            // Add the picker
-            self.data_list.append( picker );
-
-            // Disable the button
-            self.add_min_max.addClass( 'disabled' );
-
-            // Listen for events
-            $( '#x' + id )[ 0 ].addEventListener( 'click', self.on_remove_min_max );
-
-            // Tell the controller that a picker has been added
-            self.dispatchEvent( { type: 'add_min_max', id: id } );
-
-        }
+        // Fire on add picker event
+        self.on_add_picker( picker );
         
     };
     
@@ -141,30 +130,18 @@ function Fort63Display () {
 
         event.preventDefault();
 
-        // Make sure placeholder is hidden
-        self.data_list_placeholder.hide();
-        self._num_pickers += 1;
-        
-        // Create a node picker
-        var id = guid();
-        var node_picker = adcirc.templates.node_picker(
-            { 
-                id: id,
-                max_nodes: self._num_nodes,
-                picker_id: 'p' + id,
-                remove_id: 'x' + id
-            }
-        );
+        // Make new node picker
+        var picker = new NodePicker( self.data_list, self._num_nodes );
 
-        // Add node picker
-        self.data_list.append( node_picker );
-        
-        // Listen for events
-        $( '#p' + id )[0].addEventListener( 'change', self.on_change_node );
-        $( '#x' + id )[0].addEventListener( 'click', self.on_remove_node );
+        // Listen for events from the picker
+        picker.addEventListener( 'change_node', self.passthrough );
+        picker.addEventListener( 'remove_node', self.on_remove_picker );
 
-        // Tell the controller that a node has been added
-        self.dispatchEvent( { type: 'change_node', id: id, node: 1 } );
+        // Start out at node number 1
+        picker.set_node( 1 );
+
+        // Fire on add picker event
+        self.on_add_picker( picker );
 
     };
 
@@ -172,89 +149,29 @@ function Fort63Display () {
 
         event.preventDefault();
 
+        // Make new nodes picker
+        var picker = new NodesPicker( self.data_list );
+
+        // Listen for events from the picker
+        picker.addEventListener( 'change_nodes', self.passthrough );
+        picker.addEventListener( 'remove_nodes', self.on_remove_picker );
+
+        // Fire on add picker event
+        self.on_add_picker( picker );
+
+    };
+    
+    this.on_add_picker = function ( picker ) {
+
         // Make sure placeholder is hidden
         self.data_list_placeholder.hide();
         self._num_pickers += 1;
-
-        // Create a nodes picker
-        var id = guid();
-        var nodes_picker = adcirc.templates.nodes_picker(
-            {
-                id: id,
-                picker_id: 'p' + id,
-                remove_id: 'x' + id
-            }
-        );
-
-        // Add nodes picker
-        self.data_list.append( nodes_picker );
-
-        // Listen for events
-        $( '#p' + id )[0].addEventListener( 'change', self.on_change_nodes );
-        $( '#x' + id )[0].addEventListener( 'click', self.on_remove_nodes );
-
+        
     };
 
-    this.on_change_node = function ( event ) {
+    this.on_remove_picker = function ( event ) {
 
-        event.preventDefault();
-
-        // Get the node picker id and new node number
-        var id = event.target.id.substring( 1 );
-        var node_number = parseInt( event.target.value );
-
-        self.dispatchEvent( { type: 'change_node', id: id, node: node_number } );
-
-    };
-
-    this.on_change_nodes = function ( event ) {
-
-        event.preventDefault();
-
-        // Get the node picker id and new text
-        var id = event.target.id.substring( 1 );
-        var text = event.target.value;
-
-        // Parse each input value or range
-        var regex_number = /\d+(?=\D|$)/g
-        var regex_range = /\d+\s*\-\s*\d+/g;
-
-        var numbers = text.match( regex_number );
-        var ranges = text.match( regex_range );
-
-        var node_list = _.map( numbers, function ( number ) { return parseInt( number ); } );
-
-        _.each( ranges, function ( range ) {
-
-            var bounds = range.match( regex_number );
-
-            if ( bounds.length == 2 ) {
-
-                var lower_bound = parseInt( bounds[ 0 ] );
-                var upper_bound = parseInt( bounds[ 1 ] );
-
-                node_list = _.union( node_list, _.range( lower_bound, upper_bound + 1 ) );
-
-            }
-
-        });
-
-        self.dispatchEvent( { type: 'change_nodes', id: id, nodes: node_list, string: text } );
-
-
-    };
-
-    this.on_remove_min_max = function ( event ) {
-
-        event.preventDefault();
-
-        // Get the picker id
-        var id = event.target.id.substring( 1 );
-
-        // Remove the picker
-        $( '#' + id )[0].remove();
-
-        // Check if this was the last picker
+        // Check if it was the last picker
         self._num_pickers -= 1;
         if ( self._num_pickers == 0 ) {
 
@@ -263,59 +180,8 @@ function Fort63Display () {
 
         }
 
-        // Enable the button
-        self.add_min_max.removeClass( 'disabled' );
-
-        // Dispatch event
-        self.dispatchEvent( { type: 'remove_min_max', id: id } );
-
-    };
-
-    this.on_remove_node = function ( event ) {
-
-        event.preventDefault();
-
-        // Get the node picker id
-        var id = event.target.id.substring( 1 );
-
-        // Remove the picker
-        $( '#' + id )[0].remove();
-
-        // Check if this was the last node
-        self._num_pickers -= 1;
-        if ( self._num_pickers == 0 ) {
-
-            // It was, so show the placeholder
-            self.data_list_placeholder.show();
-
-        }
-
-        // Dispatch event
-        self.dispatchEvent( { type: 'remove_node', id: id } );
-
-    };
-
-    this.on_remove_nodes = function ( event ) {
-
-        event.preventDefault();
-
-        // Get the node picker id
-        var id = event.target.id.substring( 1 );
-
-        // Remove the picker
-        $( '#' + id )[0].remove();
-
-        // Check if this was the last node
-        self._num_pickers -= 1;
-        if ( self._num_pickers == 0 ) {
-
-            // It was, so show the placeholder
-            self.data_list_placeholder.show();
-
-        }
-
-        // Dispatch event
-        self.dispatchEvent( { type: 'remove_nodes', id: id } );
+        // Pass through event
+        self.dispatchEvent( event );
 
     };
 
