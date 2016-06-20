@@ -4,7 +4,7 @@ function NodePicker ( container, max_nodes ) {
 
     // Create the picker
     this.id = guid();
-    this.html = adcirc.templates.node_picker(
+    this.html = adcirc.templates.node_picker_flex(
         {
             id: self.id,
             max_nodes: max_nodes,
@@ -19,6 +19,9 @@ function NodePicker ( container, max_nodes ) {
 
     // Insert the picker into the container
     container.append( self.html );
+    
+    // Hide the settings
+    $( '#p_s' + self.id ).hide();
 
     
     // Define event handlers and setters
@@ -59,6 +62,15 @@ function NodePicker ( container, max_nodes ) {
 
     };
 
+    this.on_show_settings = function ( event ) {
+
+        event.preventDefault();
+
+        $( '#p_s' + self.id ).show();
+        $( '#p_m' + self.id ).addClass( '_active' );
+
+    };
+
     this.set_node = function ( node ) {
 
         var picker = $( '#p' + self.id );
@@ -71,6 +83,7 @@ function NodePicker ( container, max_nodes ) {
     // Listen for events from the picker
     $( '#p' + self.id ).on( 'change', self.on_change_node );
     $( '#x' + self.id ).on( 'click', self.on_remove_node );
+    $( '#s' + self.id ).on( 'click', self.on_show_settings );
     $( '#s_t' + self.id ).on( 'change', self.on_change_thickness );
 
 }

@@ -62,7 +62,29 @@ this["adcirc"]["templates"]["node_picker"] = Handlebars.template({"compiler":[7,
     + alias4(((helper = (helper = helpers.page_settings_id || (depth0 != null ? depth0.page_settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"page_settings_id","hash":{},"data":data}) : helper)))
     + "\" class=\"node-picker vertical-align\" style=\"display: none;\">\n        <!--<div class=\"controller-no-title\">-->\n            <span class=\"settings-icon\"><i class=\"fa fa-envelope-o fa-minus\"></i></span>\n            <input id=\""
     + alias4(((helper = (helper = helpers.settings_thickness_id || (depth0 != null ? depth0.settings_thickness_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_thickness_id","hash":{},"data":data}) : helper)))
-    + "\" class=\"form-control compact\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n        <!--</div>-->\n        <div class=\"extras\">\n            <i class=\"fa fa-check-circle clickable clickable-primary\"></i>\n            <i class=\"fa fa-times clickable clickable-primary\"></i>\n        </div>\n    </div>\n\n</div>";
+    + "\" class=\"form-control compact\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n        <!--</div>-->\n        <div class=\"extras\">\n            <i class=\"fa fa-check-circle clickable clickable-primary\"></i>\n            <i class=\"fa fa-times clickable clickable-primary\"></i>\n        </div>\n    </div>\n</div>";
+},"useData":true});
+
+this["adcirc"]["templates"]["node_picker_flex"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"_section\">\n    <div id=\""
+    + alias4(((helper = (helper = helpers.page_main_id || (depth0 != null ? depth0.page_main_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"page_main_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"_row\">\n        <div class=\"_title _col-md\">\n            Node:\n        </div>\n        <div class=\"_item-fill\">\n            <input id=\""
+    + alias4(((helper = (helper = helpers.picker_id || (depth0 != null ? depth0.picker_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picker_id","hash":{},"data":data}) : helper)))
+    + "\" type=\"number\" min=\"1\" max=\""
+    + alias4(((helper = (helper = helpers.max_nodes || (depth0 != null ? depth0.max_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"max_nodes","hash":{},"data":data}) : helper)))
+    + "\" value=\"1\">\n        </div>\n        <div class=\"_icon-row _col-sm\">\n            <i id=\""
+    + alias4(((helper = (helper = helpers.settings_id || (depth0 != null ? depth0.settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"fa fa-cog clickable clickable-primary\"></i>\n            <i id=\""
+    + alias4(((helper = (helper = helpers.remove_id || (depth0 != null ? depth0.remove_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"remove_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"fa fa-times clickable clickable-primary\"></i>\n        </div>\n    </div>\n    <div id=\""
+    + alias4(((helper = (helper = helpers.page_settings_id || (depth0 != null ? depth0.page_settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"page_settings_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"_row _subsection\">\n        <div class=\"_title _col-md\">\n            Thickness:\n        </div>\n        <div class=\"_item-fill\">\n            <input id=\""
+    + alias4(((helper = (helper = helpers.settings_thickness_id || (depth0 != null ? depth0.settings_thickness_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_thickness_id","hash":{},"data":data}) : helper)))
+    + "\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n        </div>\n    </div>\n</div>";
 },"useData":true});
 
 this["adcirc"]["templates"]["nodes_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

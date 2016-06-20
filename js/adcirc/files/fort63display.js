@@ -61,6 +61,7 @@ function Fort63Display () {
 
         // Initially hide everything
         self.div.hide();
+        
 
         // Show loadbar or data, depending on the status
         switch ( status ) {
