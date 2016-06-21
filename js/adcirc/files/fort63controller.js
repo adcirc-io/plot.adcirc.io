@@ -24,6 +24,7 @@ function Fort63Controller ( fort63 ) {
 
         // Start listening for events from the display
         self.display.addEventListener( 'add_min_max', self.on_add_min_max );
+        self.display.addEventListener( 'change_color', self.passthrough );
         self.display.addEventListener( 'change_node', self.on_change_node );
         self.display.addEventListener( 'change_nodes', self.on_change_nodes );
         self.display.addEventListener( 'change_thickness', self.passthrough );

@@ -28,6 +28,7 @@ function Plot( container ) {
 
         // Listen to the controller for plottable data
         controller.addEventListener( 'area', self.on_area );
+        controller.addEventListener( 'change_color', self.on_change_color );
         controller.addEventListener( 'change_thickness', self.on_change_thickness );
         controller.addEventListener( 'remove', self.on_remove );
         controller.addEventListener( 'timeseries', self.on_timeseries );
@@ -78,6 +79,15 @@ function Plot( container ) {
 
         self.line_plot.set_area( id, title, data );
 
+    };
+    
+    this.on_change_color = function ( event ) {
+        
+        var id = event.id;
+        var hex = event.hex;
+        var alpha = event.alpha;
+        self.line_plot.set_color( id, hex, alpha );
+        
     };
 
     this.on_change_thickness = function ( event ) {

@@ -133,6 +133,7 @@ function Fort63Display () {
 
         // Listen for events from the node picker
         picker.addEventListener( 'change_node', self.passthrough );
+        picker.addEventListener( 'change_color', self.passthrough );
         picker.addEventListener( 'change_thickness', self.passthrough );
 
         // Start out at node number 1

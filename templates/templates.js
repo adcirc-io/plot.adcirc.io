@@ -84,9 +84,11 @@ this["adcirc"]["templates"]["node_picker_flex"] = Handlebars.template({"compiler
     + alias4(((helper = (helper = helpers.remove_id || (depth0 != null ? depth0.remove_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"remove_id","hash":{},"data":data}) : helper)))
     + "\" class=\"fa fa-times clickable clickable-primary\"></i>\n        </div>\n    </div>\n    <div id=\""
     + alias4(((helper = (helper = helpers.page_settings_id || (depth0 != null ? depth0.page_settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"page_settings_id","hash":{},"data":data}) : helper)))
-    + "\" class=\"_subsection\">\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Thickness:\n            </div>\n            <div class=\"_item-fill\">\n                <input id=\""
+    + "\" class=\"_subsection\">\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Color:\n            </div>\n            <div class=\"_item-fill\">\n                <input id=\""
+    + alias4(((helper = (helper = helpers.settings_color_id || (depth0 != null ? depth0.settings_color_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_color_id","hash":{},"data":data}) : helper)))
+    + "\" value=\"rgba(70, 130, 180, 1)\">\n            </div>\n        </div>\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Thickness:\n            </div>\n            <div class=\"_item-fill\">\n                <input id=\""
     + alias4(((helper = (helper = helpers.settings_thickness_id || (depth0 != null ? depth0.settings_thickness_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_thickness_id","hash":{},"data":data}) : helper)))
-    + "\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n            </div>\n        </div>\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Color:\n            </div>\n            <div class=\"_item-fill\">\n                <input type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n            </div>\n        </div>\n    </div>\n</div>";
+    + "\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true});
 
 this["adcirc"]["templates"]["nodes_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

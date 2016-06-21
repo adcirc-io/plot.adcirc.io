@@ -82,7 +82,7 @@
 
 }
 
-._section input[type=number] {
+._section input {
     width: 100%;
     height: 24px;
     padding-left: 10px;
@@ -91,6 +91,6 @@
     font-size: 10px;
 }
 
-._section input[type=number]:focus {
+._section input:focus {
     outline: 0;
 }
