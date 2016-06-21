@@ -7,16 +7,27 @@
             <input id="{{ picker_id }}" type="number" min="1" max="{{ max_nodes }}" value="1">
         </div>
         <div class="_icon-row _col-sm">
+            <i id="{{ settings_done_id }}" class="fa fa-check clickable clickable-primary"></i>
             <i id="{{ settings_id }}" class="fa fa-cog clickable clickable-primary"></i>
             <i id="{{ remove_id }}" class="fa fa-times clickable clickable-primary"></i>
         </div>
     </div>
-    <div id="{{ page_settings_id }}" class="_row _subsection">
-        <div class="_title _col-md">
-            Thickness:
+    <div id="{{ page_settings_id }}" class="_subsection">
+        <div class="_row">
+            <div class="_title _col-md">
+                Thickness:
+            </div>
+            <div class="_item-fill">
+                <input id="{{ settings_thickness_id }}" type="number" min="0.1" step="0.1" value="1.0">
+            </div>
         </div>
-        <div class="_item-fill">
-            <input id="{{ settings_thickness_id }}" type="number" min="0.1" step="0.1" value="1.0">
+        <div class="_row">
+            <div class="_title _col-md">
+                Color:
+            </div>
+            <div class="_item-fill">
+                <input type="number" min="0.1" step="0.1" value="1.0">
+            </div>
         </div>
     </div>
 </div>

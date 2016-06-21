@@ -12,6 +12,7 @@ function NodePicker ( container, max_nodes ) {
             page_settings_id: 'p_s' + self.id,
             picker_id: 'p' + self.id,
             remove_id: 'x' + self.id,
+            settings_done_id: 's_d' + self.id,
             settings_id: 's' + self.id,
             settings_thickness_id: 's_t' + self.id
         }
@@ -22,6 +23,7 @@ function NodePicker ( container, max_nodes ) {
     
     // Hide the settings
     $( '#p_s' + self.id ).hide();
+    $( '#s_d' + self.id ).hide();
 
     
     // Define event handlers and setters
@@ -49,6 +51,17 @@ function NodePicker ( container, max_nodes ) {
 
     };
 
+    this.on_hide_settings = function ( event ) {
+
+        event.preventDefault();
+
+        $( '#s' + self.id ).show();
+        $( '#s_d' + self.id ).hide();
+        $( '#p_s' + self.id ).hide();
+        $( '#p_m' + self.id ).removeClass( '_active' );
+
+    };
+
     this.on_remove_node = function ( event ) {
 
         event.preventDefault();
@@ -66,6 +79,8 @@ function NodePicker ( container, max_nodes ) {
 
         event.preventDefault();
 
+        $( '#s' + self.id ).hide();
+        $( '#s_d' + self.id ).show();
         $( '#p_s' + self.id ).show();
         $( '#p_m' + self.id ).addClass( '_active' );
 
@@ -82,6 +97,7 @@ function NodePicker ( container, max_nodes ) {
     
     // Listen for events from the picker
     $( '#p' + self.id ).on( 'change', self.on_change_node );
+    $( '#s_d' + self.id ).on( 'click', self.on_hide_settings );
     $( '#x' + self.id ).on( 'click', self.on_remove_node );
     $( '#s' + self.id ).on( 'click', self.on_show_settings );
     $( '#s_t' + self.id ).on( 'change', self.on_change_thickness );

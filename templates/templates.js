@@ -77,14 +77,16 @@ this["adcirc"]["templates"]["node_picker_flex"] = Handlebars.template({"compiler
     + "\" type=\"number\" min=\"1\" max=\""
     + alias4(((helper = (helper = helpers.max_nodes || (depth0 != null ? depth0.max_nodes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"max_nodes","hash":{},"data":data}) : helper)))
     + "\" value=\"1\">\n        </div>\n        <div class=\"_icon-row _col-sm\">\n            <i id=\""
+    + alias4(((helper = (helper = helpers.settings_done_id || (depth0 != null ? depth0.settings_done_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_done_id","hash":{},"data":data}) : helper)))
+    + "\" class=\"fa fa-check clickable clickable-primary\"></i>\n            <i id=\""
     + alias4(((helper = (helper = helpers.settings_id || (depth0 != null ? depth0.settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_id","hash":{},"data":data}) : helper)))
     + "\" class=\"fa fa-cog clickable clickable-primary\"></i>\n            <i id=\""
     + alias4(((helper = (helper = helpers.remove_id || (depth0 != null ? depth0.remove_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"remove_id","hash":{},"data":data}) : helper)))
     + "\" class=\"fa fa-times clickable clickable-primary\"></i>\n        </div>\n    </div>\n    <div id=\""
     + alias4(((helper = (helper = helpers.page_settings_id || (depth0 != null ? depth0.page_settings_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"page_settings_id","hash":{},"data":data}) : helper)))
-    + "\" class=\"_row _subsection\">\n        <div class=\"_title _col-md\">\n            Thickness:\n        </div>\n        <div class=\"_item-fill\">\n            <input id=\""
+    + "\" class=\"_subsection\">\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Thickness:\n            </div>\n            <div class=\"_item-fill\">\n                <input id=\""
     + alias4(((helper = (helper = helpers.settings_thickness_id || (depth0 != null ? depth0.settings_thickness_id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"settings_thickness_id","hash":{},"data":data}) : helper)))
-    + "\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n        </div>\n    </div>\n</div>";
+    + "\" type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n            </div>\n        </div>\n        <div class=\"_row\">\n            <div class=\"_title _col-md\">\n                Color:\n            </div>\n            <div class=\"_item-fill\">\n                <input type=\"number\" min=\"0.1\" step=\"0.1\" value=\"1.0\">\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true});
 
 this["adcirc"]["templates"]["nodes_picker"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
