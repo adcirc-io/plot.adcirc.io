@@ -119,6 +119,11 @@ function Fort63Display () {
 
         // Dispatch an add picker event
         self.dispatchEvent( { type: 'add_min_max', id: picker.id } );
+        picker.addEventListener( 'change_color', self.passthrough );
+        picker.addEventListener( 'show_settings', self.on_show_settings );
+
+        // Add to list of pickers
+        self._pickers.push( picker );
 
         // Fire on add picker event
         self.on_add_picker( picker );
@@ -158,6 +163,12 @@ function Fort63Display () {
 
         // Listen for events from the nodes picker
         picker.addEventListener( 'change_nodes', self.passthrough );
+        picker.addEventListener( 'change_color', self.passthrough );
+        picker.addEventListener( 'change_thickness', self.passthrough );
+        picker.addEventListener( 'show_settings', self.on_show_settings );
+
+        // Add to the list of pickers
+        self._pickers.push( picker );
 
         // Fire on add picker event
         self.on_add_picker( picker );

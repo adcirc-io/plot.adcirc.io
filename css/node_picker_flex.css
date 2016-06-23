@@ -1,8 +1,10 @@
 
 ._section {
     width: 100%;
+    min-height: 30px;
     display: inline-flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 ._section ._subsection {
@@ -66,6 +68,8 @@
 
     /* Flow contents */
     display: inline-flex;
+    justify-content: center;
+    font-size: 10px;
 
 }
 
@@ -111,4 +115,8 @@
     border-left: 0;
     border-radius: 0 3px 3px 0;
     background-color: steelblue;
+}
+
+._section ._muted {
+    color: #aaaaaa;
 }

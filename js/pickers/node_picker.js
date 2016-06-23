@@ -107,6 +107,7 @@ function NodePicker ( container, max_nodes ) {
         self.dispatchEvent({
             type: 'change_color',
             id: self.id,
+            attr: 'stroke',
             hex: event.color.toHex(),
             alpha: event.color.value.a
         });

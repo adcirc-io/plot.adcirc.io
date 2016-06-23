@@ -117,11 +117,19 @@ function LinePlotChart ( container ) {
         
     };
 
-    this.set_color = function ( id, hex, alpha ) {
+    this.set_stroke_color = function ( id, hex, alpha ) {
 
         self.svg.selectAll( '#d' + id )
             .style( 'stroke', hex )
-            .style( 'opacity', alpha);
+            .style( 'stroke-opacity', alpha);
+
+    };
+
+    this.set_fill_color = function ( id, hex, alpha ) {
+
+        self.svg.selectAll( '#d' + id )
+            .style( 'fill', hex )
+            .style( 'fill-opacity', alpha);
 
     };
 

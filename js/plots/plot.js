@@ -84,9 +84,17 @@ function Plot( container ) {
     this.on_change_color = function ( event ) {
         
         var id = event.id;
+        var attr = event.attr;
         var hex = event.hex;
         var alpha = event.alpha;
-        self.line_plot.set_color( id, hex, alpha );
+
+        if ( attr === 'stroke' ) {
+            self.line_plot.set_stroke_color( id, hex, alpha );
+        }
+
+        else if ( attr === 'fill' ) {
+            self.line_plot.set_fill_color( id, hex, alpha );
+        }
         
     };
 
