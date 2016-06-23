@@ -20,6 +20,7 @@ function Fort63Display () {
     // Private Variables
     this._num_pickers = 0;
     this._num_nodes = 0;
+    this._pickers = [];
     
     // Generate HTML
     this.html = adcirc.templates.fort63display(
@@ -135,9 +136,13 @@ function Fort63Display () {
         picker.addEventListener( 'change_node', self.passthrough );
         picker.addEventListener( 'change_color', self.passthrough );
         picker.addEventListener( 'change_thickness', self.passthrough );
+        picker.addEventListener( 'show_settings', self.on_show_settings );
 
         // Start out at node number 1
         picker.set_node( 1 );
+        
+        // Add to list of pickers
+        self._pickers.push( picker );
 
         // Fire on add picker event
         self.on_add_picker( picker );
@@ -184,6 +189,16 @@ function Fort63Display () {
         // Pass through event
         self.dispatchEvent( event );
 
+    };
+
+    this.on_show_settings = function ( event ) {
+        
+        _.each( self._pickers, function ( picker ) {
+            
+            picker.hide_settings( event.id );
+            
+        });
+        
     };
 
     // Setters

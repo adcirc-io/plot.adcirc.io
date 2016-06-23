@@ -4,11 +4,11 @@
             Node:
         </div>
         <div class="_item-fill">
-            <input id="{{ picker_id }}" type="number" min="1" max="{{ max_nodes }}" value="1">
+            <input id="{{ node_number_id }}" type="number" min="1" max="{{ max_nodes }}" value="1">
         </div>
         <div class="_icon-row _col-sm">
-            <i id="{{ settings_done_id }}" class="fa fa-check clickable clickable-primary"></i>
-            <i id="{{ settings_id }}" class="fa fa-cog clickable clickable-primary"></i>
+            <i id="{{ settings_hide_id }}" class="fa fa-check clickable clickable-primary"></i>
+            <i id="{{ settings_show_id }}" class="fa fa-cog clickable clickable-primary"></i>
             <i id="{{ remove_id }}" class="fa fa-times clickable clickable-primary"></i>
         </div>
     </div>
@@ -18,7 +18,8 @@
                 Color:
             </div>
             <div class="_item-fill">
-                <input id="{{ settings_color_id }}" value="rgba(70, 130, 180, 1)">
+                <input id="{{ settings_color_id }}" class="color-selector" value="rgba(70, 130, 180, 1)" spellcheck="false">
+                <div id="{{ settings_color_box_id }}" class="color-selector-colorbox"></div>
             </div>
         </div>
         <div class="_row">

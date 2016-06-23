@@ -64,6 +64,9 @@
     flex-grow: 1;
     padding: 0 5px 0 5px;
 
+    /* Flow contents */
+    display: inline-flex;
+
 }
 
 ._section ._row > ._icon-row {
@@ -93,4 +96,19 @@
 
 ._section input:focus {
     outline: 0;
+}
+
+._section input.color-selector {
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+}
+
+._section .color-selector-colorbox {
+    width: 24px;
+    border: 1px solid lightgray;
+    border-left: 0;
+    border-radius: 0 3px 3px 0;
+    background-color: steelblue;
 }

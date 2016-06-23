@@ -120,7 +120,7 @@ function LinePlotChart ( container ) {
     this.set_color = function ( id, hex, alpha ) {
 
         self.svg.selectAll( '#d' + id )
-            .style( 'stroke', '#' + hex )
+            .style( 'stroke', hex )
             .style( 'opacity', alpha);
 
     };
