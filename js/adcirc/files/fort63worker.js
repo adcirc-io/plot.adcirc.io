@@ -2,7 +2,7 @@
 // Regular expressions
 var newline_regex = /\r?\n/g;
 var nonwhite_regex = /\S+/g;
-var nodal_timeseries = {};
+var nodal_timeseries = { 'seconds': [], 'timestep': [] };
 
 // Progress variables
 var _percent_interval = 0;
@@ -33,6 +33,11 @@ self.addEventListener( 'message', function ( message ) {
         case 'get_nodal_timeseries':
             
             get_nodal_timeseries( message.data.node );
+            break;
+
+        case 'get_seconds':
+
+            get_domain( 'seconds' );
             break;
 
     }
@@ -77,6 +82,36 @@ function get_nodal_timeseries ( node ) {
 }
 
 
+function get_domain ( domain ) {
+
+    var data;
+
+    switch ( domain ) {
+
+        case 'seconds':
+            data = nodal_timeseries.seconds;
+            break;
+
+        case 'timesteps':
+            data = nodal_timeseries.timestep;
+            break;
+
+    }
+
+    if ( data ) {
+
+        var timeseries = new Float32Array( data );
+        post_domain( domain, timeseries );
+
+    } else {
+
+        post_error( 'Unable to find requested domain: ' + domain );
+
+    }
+
+}
+
+
 function load_file ( file ) {
 
     post_progress_unknown();
@@ -108,6 +143,10 @@ function load_file ( file ) {
     for ( var ts=0; ts<num_ts; ++ts ) {
 
         var start_line = 2 + ts * ( num_nodes + 1 );
+        var start_line_dat = lines[ start_line ].match( nonwhite_regex );
+
+        nodal_timeseries.seconds.push( parseFloat( start_line_dat[0] ) );
+        nodal_timeseries.timestep.push( parseInt( start_line_dat[1] ) );
 
         var currmin = Infinity;
         var currmax = -Infinity;
@@ -156,6 +195,22 @@ function post_data_ready() {
     self.postMessage({
         type: 'data_ready'
     });
+
+}
+
+
+function post_domain ( domain, timeseries ) {
+
+    var data = {
+        type: 'domain',
+        domain: domain,
+        timeseries: timeseries.buffer
+    };
+
+    self.postMessage(
+        data,
+        [data.timeseries]
+    );
 
 }
 

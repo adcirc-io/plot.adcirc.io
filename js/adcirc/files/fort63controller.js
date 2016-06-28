@@ -137,6 +137,19 @@ function Fort63Controller ( fort63 ) {
     this.on_data_ready = function ( event ) {
         
         self.display.set_view_data();
+
+        self.data.get_seconds_domain( 0, function ( id, data ) {
+
+            // Tell the plot the domain values
+            self.dispatchEvent({
+
+                type: 'domain',
+                id: id,
+                domain: data
+
+            });
+
+        });
         
     };
 

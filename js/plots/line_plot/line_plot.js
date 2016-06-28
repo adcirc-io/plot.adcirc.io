@@ -20,6 +20,10 @@ function LinePlotChart ( container ) {
 
     this.domain_value = function ( data_point, index ) {
 
+        if ( self.domain ) {
+            return self.axis.x( self.domain[ index ] );
+        }
+
         return self.axis.x( index + 1 );
 
     };
@@ -117,6 +121,17 @@ function LinePlotChart ( container ) {
         
     };
 
+    this.set_domain = function ( domain ) {
+
+        self.domain = domain;
+
+        var xmin = d3.min( domain );
+        var xmax = d3.max( domain );
+
+        self.axis.update_x_domain( [ xmin, xmax ] );
+
+    };
+
     this.set_stroke_color = function ( id, hex, alpha ) {
 
         self.svg.selectAll( '#d' + id )
@@ -166,7 +181,6 @@ function LinePlotChart ( container ) {
         if ( id && data ) {
 
             // Get the min/max ranges
-            var xmax = d3.max( _.map( data, function ( timeseries ) { return timeseries.length; } ) );
             var ymin = d3.min( _.map( data, function ( timeseries ) { return d3.min( timeseries ); } ) );
             var ymax = d3.max( _.map( data, function ( timeseries ) { return d3.max( timeseries ); } ) );
 
@@ -174,8 +188,6 @@ function LinePlotChart ( container ) {
             var found = false;
             for ( var i = 0; i < self.bounds.length; ++i ) {
                 if ( self.bounds[ i ].id === id ) {
-                    self.bounds[ i ].xmin = 0;
-                    self.bounds[ i ].xmax = xmax;
                     self.bounds[ i ].ymin = ymin;
                     self.bounds[ i ].ymax = ymax;
                     found = true;
@@ -187,8 +199,6 @@ function LinePlotChart ( container ) {
 
                 self.bounds.push({
                     id: id,
-                    xmin: 0,
-                    xmax: xmax,
                     ymin: ymin,
                     ymax: ymax
                 });
@@ -197,18 +207,13 @@ function LinePlotChart ( container ) {
 
         }
 
-        var xbounds = [
-            d3.min( self.bounds.map( function ( b ) { return b.xmin; } ) ),
-            d3.max( self.bounds.map( function ( b ) { return b.xmax; } ) )
-        ];
-
         var ybounds = [
             d3.min( self.bounds.map( function ( b ) { return b.ymin; } ) ),
             d3.max( self.bounds.map( function ( b ) { return b.ymax; } ) )
         ];
 
-        self.axis.update( xbounds, ybounds );
-
+        // self.axis.update( xbounds, ybounds );
+        self.axis.update_y_domain( ybounds );
 
     };
 

@@ -76,6 +76,24 @@ function Fort63 ( file ) {
     };
 
 
+    this.get_seconds_domain = function ( id, callback ) {
+
+        // Check cache for data
+        if ( self.timeseries.seconds ) {
+
+            // We've already got the data, so send it to the callback
+            callback( id, self.timeseries.seconds );
+
+        } else {
+
+            // We don't have it yet, so load it
+            self.load_seconds_domain( id, callback );
+
+        }
+
+    };
+
+
     this.load = function () {
 
         // Start listening to the worker before we tell it to load anything
@@ -150,6 +168,33 @@ function Fort63 ( file ) {
         }
 
     };
+
+
+    this.load_seconds_domain = function ( id, callback ) {
+
+        // Build the callback object
+        var cb = {
+            id: id,
+            callback: callback
+        };
+
+        // If the domain is in the queue, we're already loading the data
+        if ( self.callbacks.seconds ) {
+
+            self.callbacks.seconds.push( cb );
+
+        } else {
+
+            self.callbacks.seconds = [ cb ];
+
+            // Start loading the data
+            self.worker.postMessage({
+                action: 'get_seconds'
+            });
+
+        }
+
+    };
     
     
     this.on_data_ready = function () {
@@ -157,6 +202,26 @@ function Fort63 ( file ) {
         self.status = 'ready';
         self.dispatchEvent( ready_event );
         
+    };
+
+
+    this.on_domain = function ( domain, data_buffer ) {
+
+        // Cache the data
+        self.timeseries[ domain ] = new Float32Array( data_buffer );
+
+        // Check for callbacks waiting for this domain
+        if ( self.callbacks[ domain ] ) {
+
+            _.each( self.callbacks[ domain ], function ( cb ) {
+
+                // Call the callback
+                cb.callback( cb.id, self.timeseries[ domain ] );
+
+            });
+
+        }
+
     };
 
 
@@ -240,6 +305,11 @@ function Fort63 ( file ) {
             case 'data_ready':
 
                 self.on_data_ready();
+                break;
+
+            case 'domain':
+
+                self.on_domain( message.domain, message.timeseries );
                 break;
 
             case 'error':

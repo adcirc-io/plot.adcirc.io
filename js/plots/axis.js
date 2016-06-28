@@ -7,6 +7,19 @@ function Axis ( svg, width, height ) {
     self.num_major = { x: 10, y: 10 };
     self.num_minor = { x: 20, y: 20 };
     self.animation_duration = 250;
+
+    // Axis formatting
+    self.formatTime = d3.time.format.multi([
+        [".%L", function(d) { return d.getMilliseconds(); }],
+        [":%S", function(d) { return d.getSeconds(); }],
+        ["%I:%M", function(d) { return d.getMinutes(); }],
+        ["%I %p", function(d) { return d.getHours(); }],
+        ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
+        ["%b %d", function(d) { return d.getDate() != 1; }],
+        ["%B", function(d) { return d.getMonth(); }],
+        ["%Y", function() { return true; }]
+    ]);
+    self.formatSeconds = function ( seconds ) { return self.formatTime( new Date( 1988, 7, 1, 0, 0, seconds ) ); };
     
     // Axis variables
     self.svg = svg;
@@ -17,7 +30,8 @@ function Axis ( svg, width, height ) {
     self.x_ticks = d3.svg.axis()
                      .ticks( self.num_major.x )
                      .scale( self.x )
-                     .orient( 'bottom' );
+                     .orient( 'bottom' )
+                     .tickFormat( self.formatSeconds );
     self.y_ticks = d3.svg.axis()
                      .ticks( self.num_major.y )
                      .scale( self.y )
@@ -75,21 +89,7 @@ function Axis ( svg, width, height ) {
 
     };
 
-    self.update = function ( x_domain, y_domain ) {
-
-        if ( x_domain !== undefined ) {
-            self.x_domain = x_domain;
-        }
-        if ( y_domain !== undefined ) {
-            self.y_domain = y_domain;
-        }
-
-        if ( self.x_domain ) {
-            self.x.domain( self.x_domain );
-        }
-        if ( self.y_domain ) {
-            self.y.domain( self.y_domain ).nice();
-        }
+    self.update = function () {
 
         self.x_lines.tickSize( -self.height );
         self.y_lines.tickSize( -self.width );
@@ -124,6 +124,22 @@ function Axis ( svg, width, height ) {
             .duration( self.animation_duration )
             .call( self.y_grid );
 
-    }
+    };
+
+    self.update_x_domain = function ( x_domain ) {
+
+        self.x_domain = x_domain;
+        self.x.domain( self.x_domain ).nice();
+        self.update();
+
+    };
+
+    self.update_y_domain = function ( y_domain ) {
+
+        self.y_domain = y_domain;
+        self.y.domain( self.y_domain ).nice();
+        self.update();
+
+    };
     
 }

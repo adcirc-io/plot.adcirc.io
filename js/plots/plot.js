@@ -30,6 +30,7 @@ function Plot( container ) {
         controller.addEventListener( 'area', self.on_area );
         controller.addEventListener( 'change_color', self.on_change_color );
         controller.addEventListener( 'change_thickness', self.on_change_thickness );
+        controller.addEventListener( 'domain', self.on_domain );
         controller.addEventListener( 'remove', self.on_remove );
         controller.addEventListener( 'timeseries', self.on_timeseries );
 
@@ -64,13 +65,6 @@ function Plot( container ) {
         
     };
 
-    this.on_remove = function ( event ) {
-
-        var id = event.id;
-        self.line_plot.remove( id );
-
-    };
-
     this.on_area = function ( event ) {
 
         var id = event.id;
@@ -79,6 +73,12 @@ function Plot( container ) {
 
         self.line_plot.set_area( id, title, data );
 
+    };
+    
+    this.on_domain = function ( event ) {
+        
+        self.line_plot.set_domain( event.domain );
+        
     };
     
     this.on_change_color = function ( event ) {
@@ -103,6 +103,13 @@ function Plot( container ) {
         var id = event.id;
         var thickness = event.thickness;
         self.line_plot.set_thickness( id, thickness );
+
+    };
+
+    this.on_remove = function ( event ) {
+
+        var id = event.id;
+        self.line_plot.remove( id );
 
     };
 
