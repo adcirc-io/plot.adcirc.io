@@ -9,18 +9,13 @@ function Axis ( svg, width, height ) {
     self.animation_duration = 250;
 
     // Axis formatting
-    self.formatTime = d3.time.format.multi([
-        [".%L", function(d) { return d.getMilliseconds(); }],
-        [":%S", function(d) { return d.getSeconds(); }],
-        ["%I:%M", function(d) { return d.getMinutes(); }],
-        ["%I %p", function(d) { return d.getHours(); }],
-        ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
-        ["%b %d", function(d) { return d.getDate() != 1; }],
-        ["%B", function(d) { return d.getMonth(); }],
-        ["%Y", function() { return true; }]
-    ]);
-    self.formatSeconds = function ( seconds ) { return self.formatTime( new Date( 1988, 7, 1, 0, 0, seconds ) ); };
-    
+    self.format_x_tick = function ( seconds ) {
+
+        return moment.duration( seconds, 'seconds' ).format( 'h:mm' );
+
+    };
+
+
     // Axis variables
     self.svg = svg;
     self.width = width;
@@ -31,7 +26,7 @@ function Axis ( svg, width, height ) {
                      .ticks( self.num_major.x )
                      .scale( self.x )
                      .orient( 'bottom' )
-                     .tickFormat( self.formatSeconds );
+                     .tickFormat( self.format_x_tick );
     self.y_ticks = d3.svg.axis()
                      .ticks( self.num_major.y )
                      .scale( self.y )
@@ -78,6 +73,7 @@ function Axis ( svg, width, height ) {
                          .attr( 'class', 'y grid' )
                          .call( self.y_grid );
 
+
     self.resize = function ( width, height ) {
 
         self.x.range( [0, width] );
@@ -123,6 +119,7 @@ function Axis ( svg, width, height ) {
             .transition()
             .duration( self.animation_duration )
             .call( self.y_grid );
+
 
     };
 
