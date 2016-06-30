@@ -16,28 +16,18 @@ function LinePlotChart ( container ) {
     // Other plotting variables
     this.animation_duration = 250;
     this.bounds = [];
-
-
-    this.domain_value = function ( data_point, index ) {
-
-        if ( self.domain ) {
-            return self.axis.x( self.domain[ index ] );
-        }
-
-        return self.axis.x( index + 1 );
-
-    };
+    
 
     this.defined = function ( data_point ) {
 
         return data_point;
 
     };
-
-    this.range_value = function ( data_point, index ) {
-
-        return self.axis.y( data_point );
-
+    
+    this.get_x_domain = function () {
+        
+        return self.x_domain;
+        
     };
     
     this.remove = function ( id ) {
@@ -121,12 +111,12 @@ function LinePlotChart ( container ) {
         
     };
 
-    this.set_domain = function ( domain ) {
+    this.set_x_domain = function ( x_domain ) {
 
-        self.domain = domain;
+        self.x_domain = x_domain;
 
-        var xmin = d3.min( domain );
-        var xmax = d3.max( domain );
+        var xmin = d3.min( x_domain );
+        var xmax = d3.max( x_domain );
 
         self.axis.update_x_domain( [ xmin, xmax ] );
 
@@ -216,6 +206,22 @@ function LinePlotChart ( container ) {
         self.axis.update_y_domain( ybounds );
 
     };
+    
+    this.x_value = function ( data_point, index ) {
+
+        if ( self.x_domain ) {
+            return self.axis.x( self.x_domain[ index ] );
+        }
+
+        return self.axis.x( index + 1 );
+
+    };
+    
+    this.y_value = function ( data_point ) {
+
+        return self.axis.y( data_point );
+
+    };
 
 
     // Add the plot
@@ -238,13 +244,13 @@ function LinePlotChart ( container ) {
     // Create the plotting functions
     this.line = d3.svg.line()
                   .defined( self.defined )
-                  .x( self.domain_value )
-                  .y( self.range_value )
+                  .x( self.x_value )
+                  .y( self.y_value )
                   .interpolate( 'monotone' );
 
     this.area = d3.svg.area()
                   .defined( function ( d ) { return d[0] && d[1]; } )
-                  .x( self.domain_value )
+                  .x( self.x_value )
                   .y0( function ( d ) { return self.axis.y( d[0] ); } )
                   .y1( function ( d ) { return self.axis.y( d[1] ); } )
                   .interpolate( 'monotone' );

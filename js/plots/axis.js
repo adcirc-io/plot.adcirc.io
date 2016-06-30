@@ -67,6 +67,11 @@ function Axis ( svg, width, height ) {
                          .attr( 'class', 'y grid' )
                          .call( self.y_grid );
 
+    this.get_x_domain = function () {
+        
+        return self.x_domain;
+        
+    };
 
     this.resize = function ( width, height ) {
 

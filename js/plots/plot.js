@@ -39,6 +39,12 @@ function Plot( container ) {
         
     };
     
+    this.get_x_domain = function () {
+        
+        return self.line_plot.get_x_domain();
+        
+    };
+    
     this.resize = function () {
         
         self.line_plot.resize();
@@ -64,6 +70,12 @@ function Plot( container ) {
         }
         
     };
+    
+    this.set_x_domain = function ( x_domain ) {
+        
+        self.line_plot.set_x_domain( x_domain );
+        
+    };
 
     this.on_area = function ( event ) {
 
@@ -77,7 +89,7 @@ function Plot( container ) {
     
     this.on_domain = function ( event ) {
         
-        self.line_plot.set_domain( event.domain );
+        self.set_x_domain( event.domain );
         
     };
     
