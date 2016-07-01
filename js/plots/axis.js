@@ -60,12 +60,14 @@ function Axis ( svg, width, height ) {
                          .attr( 'class', 'y lines' )
                          .call( self.y_lines );
     this.x_grid_g = self.svg.append( 'g' )
-                         .attr( 'class', 'x grid' )
-                         .attr( 'transform', 'translate(0,' + self.height + ')' )
-                         .call( self.x_grid );
+                        .attr( 'class', 'x grid' )
+                        .attr( 'transform', 'translate(0,' + self.height + ')' )
+                        .attr( 'stroke-dasharray', '2, 2')
+                        .call( self.x_grid );
     this.y_grid_g = self.svg.append( 'g' )
-                         .attr( 'class', 'y grid' )
-                         .call( self.y_grid );
+                        .attr( 'class', 'y grid' )
+                        .attr( 'stroke-dasharray', '2, 2')
+                        .call( self.y_grid );
 
     this.get_x_domain = function () {
         
