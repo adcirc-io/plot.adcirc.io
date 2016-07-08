@@ -73,7 +73,7 @@ function Fort63Controller ( fort63 ) {
         var node_id = event.id;
         var node_number = event.node;
 
-        self.data.get_nodal_timeseries( node_id, node_number, function ( id, node_number, data ) {
+        self.data.get_nodal_timeseries( node_id, node_number, function ( id, node_number, file_id, data ) {
 
             // Tell the plot to plot the node
             self.dispatchEvent({
@@ -81,6 +81,7 @@ function Fort63Controller ( fort63 ) {
                 type: 'timeseries',
                 id: id,
                 title: 'Node ' + node_number,
+                file_id: file_id,
                 data: [data]
 
             });
@@ -138,13 +139,13 @@ function Fort63Controller ( fort63 ) {
         
         self.display.set_view_data();
 
-        self.data.get_seconds_domain( 0, function ( id, data ) {
+        self.data.get_seconds_domain( function ( file_id, data ) {
 
             // Tell the plot the domain values
             self.dispatchEvent({
 
                 type: 'domain',
-                id: id,
+                file_id: file_id,
                 domain: data
 
             });

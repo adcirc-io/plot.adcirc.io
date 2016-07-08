@@ -6,6 +6,7 @@ function Fort63 ( file ) {
 
 
     // Variables
+    this.id = guid();
     this.file = file;
     this.callbacks = {};
     this.info = '';
@@ -76,18 +77,18 @@ function Fort63 ( file ) {
     };
 
 
-    this.get_seconds_domain = function ( id, callback ) {
+    this.get_seconds_domain = function ( callback ) {
 
         // Check cache for data
         if ( self.timeseries.seconds ) {
 
             // We've already got the data, so send it to the callback
-            callback( id, self.timeseries.seconds );
+            callback( self.id, self.timeseries.seconds );
 
         } else {
 
             // We don't have it yet, so load it
-            self.load_seconds_domain( id, callback );
+            self.load_seconds_domain( callback );
 
         }
 
@@ -170,22 +171,16 @@ function Fort63 ( file ) {
     };
 
 
-    this.load_seconds_domain = function ( id, callback ) {
-
-        // Build the callback object
-        var cb = {
-            id: id,
-            callback: callback
-        };
+    this.load_seconds_domain = function ( callback ) {
 
         // If the domain is in the queue, we're already loading the data
         if ( self.callbacks.seconds ) {
 
-            self.callbacks.seconds.push( cb );
+            self.callbacks.seconds.push( callback );
 
         } else {
 
-            self.callbacks.seconds = [ cb ];
+            self.callbacks.seconds = [ callback ];
 
             // Start loading the data
             self.worker.postMessage({
@@ -213,10 +208,10 @@ function Fort63 ( file ) {
         // Check for callbacks waiting for this domain
         if ( self.callbacks[ domain ] ) {
 
-            _.each( self.callbacks[ domain ], function ( cb ) {
+            _.each( self.callbacks[ domain ], function ( callback ) {
 
                 // Call the callback
-                cb.callback( cb.id, self.timeseries[ domain ] );
+                callback( self.timeseries[ domain ] );
 
             });
 

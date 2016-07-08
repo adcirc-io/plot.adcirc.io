@@ -8,6 +8,14 @@ function Axis ( svg, width, height ) {
     this.num_minor = { x: 1, y: 1 };
     this.animation_duration = 250;
 
+    // Axis bounds
+    this.x_bounds = {};
+    this.y_bounds = {};
+
+    // Axis mode
+    this.x_axis_mode = 'fit';
+    this.y_axis_mode = 'fit';
+
     // Axis formatting
     this.format_x_tick = function ( seconds ) {
 
@@ -69,9 +77,69 @@ function Axis ( svg, width, height ) {
                         .attr( 'stroke-dasharray', '2, 2')
                         .call( self.y_grid );
 
-    this.get_x_domain = function () {
+    this.fit_x_domain = function () {
+
+        var x_bounds = [
+            d3.min( _.map( self.x_bounds, function ( bounds ) { return bounds[0]; } ) ),
+            d3.max( _.map( self.x_bounds, function ( bounds ) { return bounds[1]; } ) )
+        ];
+
+        if ( !x_bounds[0] || !x_bounds[1] ) {
+
+            x_bounds = [ 0, 1 ];
+
+        }
+
+        self.update_x_domain( x_bounds );
+
+    };
+
+    this.fit_y_domain = function () {
+
+        var y_bounds = [
+            d3.min( _.map( self.y_bounds, function ( bounds ) { return bounds[0]; } ) ),
+            d3.max( _.map( self.y_bounds, function ( bounds ) { return bounds[1]; } ) )
+        ];
+
+        if ( !y_bounds[0] || !y_bounds[1] ) {
+
+            y_bounds = [ 0, 1 ];
+
+        }
+
+        self.update_y_domain( y_bounds );
+
+    };
+
+    this.remove_x_domain = function ( id ) {
+
+        self.x_bounds = _.omit( self.x_bounds, [id] );
+
+        if ( self.x_axis_mode === 'fit' ) {
+
+            self.fit_x_domain();
+
+        } else {
+
+            self.update();
+
+        }
+
+    };
+    
+    this.remove_y_domain = function ( id ) {
         
-        return self.x_domain;
+        self.y_bounds = _.omit( self.y_bounds, [id] );
+
+        if ( self.y_axis_mode === 'fit' ) {
+
+            self.fit_y_domain();
+
+        } else {
+
+            self.update();
+
+        }
         
     };
 
@@ -83,6 +151,39 @@ function Axis ( svg, width, height ) {
         self.height = height;
 
         self.update();
+
+    };
+
+    this.set_x_domain = function ( id, x_domain ) {
+
+        self.x_bounds[ id ] = x_domain;
+
+        if ( self.x_axis_mode === 'fit') {
+
+            self.fit_x_domain();
+
+        } else {
+
+            self.update();
+
+        }
+
+    };
+
+    this.set_y_domain = function ( id, y_domain ) {
+
+        self.y_bounds[ id ] = y_domain;
+
+        if ( self.y_axis_mode === 'fit' ) {
+
+            self.fit_y_domain();
+
+        } else {
+
+            self.update();
+
+        }
+
 
     };
 
@@ -151,6 +252,9 @@ function Axis ( svg, width, height ) {
             .duration( self.animation_duration )
             .call( self.y_grid );
 
+        self.dispatchEvent({
+            type: 'updated'
+        });
 
     };
 
@@ -173,3 +277,5 @@ function Axis ( svg, width, height ) {
     self.update();
 
 }
+
+Object.assign( Axis.prototype, EventDispatcher.prototype );

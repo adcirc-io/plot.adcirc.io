@@ -88,13 +88,13 @@ function Plot( container ) {
     };
     
     this.on_domain = function ( event ) {
-        
+
         self.set_x_domain( event.domain );
-        
+
     };
     
     this.on_change_color = function ( event ) {
-        
+
         var id = event.id;
         var attr = event.attr;
         var hex = event.hex;
@@ -107,7 +107,7 @@ function Plot( container ) {
         else if ( attr === 'fill' ) {
             self.line_plot.set_fill_color( id, hex, alpha );
         }
-        
+
     };
 
     this.on_change_thickness = function ( event ) {

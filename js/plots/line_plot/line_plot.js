@@ -209,6 +209,9 @@ function LinePlotChart ( container ) {
     
     this.x_value = function ( data_point, index ) {
 
+        console.log( this.id );
+        console.log( self.x_domain );
+
         if ( self.x_domain ) {
             return self.axis.x( self.x_domain[ index ] );
         }
