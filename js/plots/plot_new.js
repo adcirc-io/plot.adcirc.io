@@ -44,7 +44,7 @@ function Plot ( parent ) {
 
         // Tell the controller which axis to use
         controller.set_axis( self.axis );
-        controller.set_container( self.foreground );
+        controller.set_layers( self.background, self.midground, self.foreground );
         controller.set_x_units( self.units_x );
         
         // Save the controller

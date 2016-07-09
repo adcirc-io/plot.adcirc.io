@@ -83,7 +83,7 @@ function Fort63 ( file ) {
         if ( self.timeseries.seconds ) {
 
             // We've already got the data, so send it to the callback
-            callback( self.id, self.timeseries.seconds );
+            callback( self.timeseries.seconds );
 
         } else {
 

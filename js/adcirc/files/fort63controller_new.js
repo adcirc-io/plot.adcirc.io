@@ -10,8 +10,10 @@ function Fort63Controller ( fort63 ) {
     // The options display
     this.display = fort63.get_display();
 
-    // The plotting display
-    this.container = null;
+    // The plotting layers
+    this.background = null;
+    this.midground = null;
+    this.foreground = null;
 
     // The axis
     this.axis = null;
@@ -49,8 +51,10 @@ function Fort63Controller ( fort63 ) {
         self.display.set_num_timesteps( self.data.num_timesteps );
 
         // Start listening for events from the display
+        self.display.addEventListener( 'add_min_max', self.on_add_min_max );
         self.display.addEventListener( 'change_color', self.on_change_color );
         self.display.addEventListener( 'change_node', self.on_change_node );
+        self.display.addEventListener( 'change_nodes', self.on_change_nodes );
         self.display.addEventListener( 'change_thickness', self.on_change_thickness );
         self.display.addEventListener( 'remove', self.on_remove );
 
@@ -59,6 +63,26 @@ function Fort63Controller ( fort63 ) {
         self.data.addEventListener( 'progress', self.on_data_progress );
         self.data.addEventListener( 'ready', self.on_data_ready );
 
+    };
+    
+    this.on_add_min_max = function ( event ) {
+      
+        var id = event.id;
+        
+        self.data.get_min_max_timeseries( id, function ( id, data ) {
+            
+            // Check if area already exists
+            if ( !( id in self.plottables ) ) {
+
+                self.plottables[ id ] = new Area( self.midground, self.axis );
+                self.plottables[ id ].set_x_values( self.x_values );
+
+            }
+
+            self.plottables[ id ].set_y_values( data.min, data.max );
+            
+        });
+        
     };
 
     this.on_change_color = function ( event ) {
@@ -92,19 +116,50 @@ function Fort63Controller ( fort63 ) {
         self.data.get_nodal_timeseries( node_id, node_number, function ( id, node_number, data ) {
             
             // Check if the line already exists
-            if ( id in self.plottables ) {
+            if ( !( id in self.plottables ) ) {
 
-                // It does, so update the existing line
-                self.plottables[ id ].set_y_values( data );
-                
-            } else {
-                
-                // It doesn't, so create a new line
-                self.plottables[ id ] = new Line ( self.container, self.axis );
+                self.plottables[ id ] = new Line( self.foreground, self.axis );
                 self.plottables[ id ].set_x_values( self.x_values );
-                self.plottables[ id ].set_y_values( data );
                 
             }
+
+            self.plottables[ id ].set_y_values( [data] );
+
+        });
+
+    };
+
+    this.on_change_nodes = function ( event ) {
+
+        var node_id = event.id;
+        var node_list = event.nodes;
+        var node_string = event.string;
+        var all_data = [];
+
+        _.each ( node_list, function ( node ) {
+
+            self.data.get_nodal_timeseries( node_id, node, function ( id, node_number, data ) {
+
+                // Add dataset
+                all_data.push( data );
+
+                // Check if this was the last dataset to load
+                if ( all_data.length == node_list.length ) {
+
+                    // Check if the line already exists
+                    if ( !( id in self.plottables) ) {
+
+                        // It doesn't, so create a new line
+                        self.plottables[ id ] = new Line( self.foreground, self.axis );
+                        self.plottables[ id ].set_x_values( self.x_values );
+
+                    }
+
+                    self.plottables[ id ].set_y_values( all_data );
+
+                }
+
+            });
 
         });
 
@@ -178,9 +233,11 @@ function Fort63Controller ( fort63 ) {
 
     };
     
-    this.set_container = function ( container ) {
+    this.set_layers = function ( background, midground, foreground ) {
         
-        self.container = container;
+        self.background = background;
+        self.midground = midground;
+        self.foreground = foreground;
         
     };
 

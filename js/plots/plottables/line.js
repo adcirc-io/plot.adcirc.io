@@ -17,7 +17,11 @@ function Line ( container, axis ) {
     this.redraw = function () {
 
         // Update data with transitions
-        self.svg.selectAll( '.line' ).transition().duration( self.animation_duration ).attr( 'd', self.line );
+        self.svg
+            .selectAll( '.line' )
+            .transition()
+            .duration( self.animation_duration )
+            .attr( 'd', self.line );
 
     };
 
@@ -49,7 +53,7 @@ function Line ( container, axis ) {
         // Update the x values
         self.x_values = x_values;
 
-        // Tell the axis that the x-values have changed
+        // Tell the axis the extent of the new x-values
         self.axis.set_x_domain( self.id, d3.extent( x_values ) );
 
     };
@@ -57,7 +61,7 @@ function Line ( container, axis ) {
     this.set_y_values = function ( y_values ) {
 
         // Perform join on line id
-        var select = self.svg.selectAll( '#d' + self.id ).data( [y_values] );
+        var select = self.svg.selectAll( '#d' + self.id ).data( y_values );
 
         // Add line if it doesn't exist
         select.enter().append( 'path' )
@@ -67,8 +71,14 @@ function Line ( container, axis ) {
         // Remove data that no longer exists
         select.exit().remove();
         
-        // Tell the axis that the y-values have changed
-        self.axis.set_y_domain( self.id, d3.extent( y_values ));
+        // Calculate the y-bounds of the new data using map reduce
+        var extents = _.map( y_values, function ( dataset ) { return d3.extent( dataset ); } );
+        var extent = _.reduce( extents, function ( extent, current ) {
+            return d3.extent( _.flatten( extent, current ) );
+        });
+
+        // Tell the axis the extent of the new y-values
+        self.axis.set_y_domain( self.id, extent );
 
     };
 

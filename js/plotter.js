@@ -20,15 +20,6 @@ function Plotter () {
         // Create the plot
         var plot = new Plot( '#plotting-area' );
         var element = $( '#' + plot.id )[0];
-        
-        // Set x-axis from currently active plot
-        if ( self.active_plot ) {
-
-            var active = self.plots[ self.active_plot ];
-            var x_domain = active.get_x_domain();
-            plot.set_x_domain( x_domain );
-            
-        }
 
         // Add controllers
         self.data_manager.generate_controllers( function ( controller ) {
