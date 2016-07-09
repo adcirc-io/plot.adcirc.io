@@ -1,17 +1,24 @@
-function Plot( container ) {
-    
+function Plot ( parent ) {
+
     // Scoping
     var self = this;
-    
+
     // Parent container
-    this.parent = $( container );
-    
+    this.parent = $( parent );
+
     // ID
     this.id = guid();
 
     // Controllers
     this.controllers = [];
-    
+
+    // Margin options
+    this.margin = { top: 35, right: 35, bottom: 35, left: 55 };
+
+    // Axis options
+    this.units_x = 'time';
+    this.units_y = 'meters';
+
     // Add the plot to the container
     this.parent.append(
         adcirc.templates.plot(
@@ -21,46 +28,75 @@ function Plot( container ) {
         )
     );
 
-    // Add the line plot
-    this.line_plot = new LinePlotChart( self.id );
+    // Create drawing area hierarchy
+    this.container = d3.select( '#' + self.id );
+    this.area = this.container.append( 'svg' );
+    this.svg = this.area.append( 'g' )
+                   .attr( 'transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')' );
+
+    // Create layers
+    this.background = this.svg.append( 'g' );
+    this.midground = this.svg.append( 'g' );
+    this.foreground = this.svg.append( 'g' );
     
+
     this.add_controller = function ( controller ) {
 
-        // Listen to the controller for plottable data
-        controller.addEventListener( 'area', self.on_area );
-        controller.addEventListener( 'change_color', self.on_change_color );
-        controller.addEventListener( 'change_thickness', self.on_change_thickness );
-        controller.addEventListener( 'domain', self.on_domain );
-        controller.addEventListener( 'remove', self.on_remove );
-        controller.addEventListener( 'timeseries', self.on_timeseries );
-
+        // Tell the controller which axis to use
+        controller.set_axis( self.axis );
+        controller.set_layers( self.background, self.midground, self.foreground );
+        controller.set_x_units( self.units_x );
+        
         // Save the controller
         self.controllers.push( controller );
-        
+
     };
-    
-    this.get_x_domain = function () {
-        
-        return self.line_plot.get_x_domain();
-        
+
+    this.redraw = function () {
+
+        // Update all plottables
+        _.each( self.controllers, function ( controller ) {
+
+            controller.redraw();
+
+        });
+
     };
-    
+
     this.resize = function () {
-        
-        self.line_plot.resize();
-        
+
+        var area_width = parseInt( self.container.style( 'width' ), 10 );
+        var area_height = 400;
+
+        self.width = area_width - self.margin.left - self.margin.right;
+        self.height = area_height - self.margin.top - self.margin.bottom;
+
+        // Update the plot
+        self.area
+          .attr( 'width', area_width )
+          .attr( 'height', area_height );
+
+        self.svg
+            .attr( 'width', self.width )
+            .attr( 'height', self.height );
+
+        // Update the axis
+        if ( self.axis ) {
+            self.axis.resize( self.width, self.height );
+        }
+
     };
-    
+
     this.set_active = function () {
-      
+
         for ( var i=0; i<self.controllers.length; ++i  ) {
 
             self.controllers[i].show_display();
 
         }
-        
+
     };
-    
+
     this.set_inactive = function () {
 
         for ( var i=0; i<self.controllers.length; ++i )  {
@@ -68,73 +104,17 @@ function Plot( container ) {
             self.controllers[i].hide_display();
 
         }
-        
-    };
-    
-    this.set_x_domain = function ( x_domain ) {
-        
-        self.line_plot.set_x_domain( x_domain );
-        
-    };
-
-    this.on_area = function ( event ) {
-
-        var id = event.id;
-        var title = event.title;
-        var data = event.data;
-
-        self.line_plot.set_area( id, title, data );
-
-    };
-    
-    this.on_domain = function ( event ) {
-
-        self.set_x_domain( event.domain );
-
-    };
-    
-    this.on_change_color = function ( event ) {
-
-        var id = event.id;
-        var attr = event.attr;
-        var hex = event.hex;
-        var alpha = event.alpha;
-
-        if ( attr === 'stroke' ) {
-            self.line_plot.set_stroke_color( id, hex, alpha );
-        }
-
-        else if ( attr === 'fill' ) {
-            self.line_plot.set_fill_color( id, hex, alpha );
-        }
 
     };
 
-    this.on_change_thickness = function ( event ) {
 
-        var id = event.id;
-        var thickness = event.thickness;
-        self.line_plot.set_thickness( id, thickness );
+    // Initial sizing
+    this.resize();
 
-    };
+    // Add the axis
+    this.axis = new Axis( self.background, self.width, self.height );
+    this.axis.addEventListener( 'updated', self.redraw );
 
-    this.on_remove = function ( event ) {
-
-        var id = event.id;
-        self.line_plot.remove( id );
-
-    };
-
-    this.on_timeseries = function ( event ) {
-
-        var id = event.id;
-        var title = event.title;
-        var data = event.data;
-
-        self.line_plot.set_data( id, title, data );
-
-    };
-    
 }
 
 Object.assign( Plot.prototype, EventDispatcher.prototype );
