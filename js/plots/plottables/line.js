@@ -104,8 +104,8 @@ function Line ( container, axis ) {
     this.line = d3.svg.line()
                   .defined( self.defined )
                   .x( self.x_value )
-                  .y( self.y_value )
-                  .interpolate( 'monotone' );
+                  .y( self.y_value );
+                  // .interpolate( 'monotone' );
 
     this.svg = self.container.append( 'g' );
     
